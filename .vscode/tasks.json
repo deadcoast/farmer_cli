@@ -1,0 +1,131 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Python: Current File",
+            "type": "shell",
+            "command": "${command:python.interpreterPath} ${file}",
+            "args": [],
+            "group": "build"
+        },
+        {
+            "label": "Python: Main File",
+            "type": "shell",
+            "command": "${command:python.interpreterPath} ${workspaceFolder}/main.py",
+            "args": [],
+            "group": "build"
+        },
+        {
+            "label": "Pytest: Run All",
+            "type": "shell",
+            "command": "${input:pyExec} -m pytest -q",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}"
+                }
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Pytest: Run Current File",
+            "type": "shell",
+            "command": "${input:pyExec} -m pytest -q ${relativeFile}",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}"
+                }
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Pytest: Run Mark",
+            "type": "shell",
+            "command": "${input:pyExec} -m pytest -q -m ${input:pytestMark}",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}"
+                }
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Ruff: Lint All Files",
+            "type": "shell",
+            "command": "ruff check .",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "problemMatcher": [],
+            "detail": "Run Ruff linter on the entire project."
+        },
+        {
+            "label": "Ruff: Fix All Autofixable Issues",
+            "type": "shell",
+            "command": "ruff check . --fix",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "problemMatcher": [],
+            "detail": "Auto-fix fixable issues."
+        },
+        {
+            "label": "Ruff: Format Code",
+            "type": "shell",
+            "command": "ruff format .",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "problemMatcher": [],
+            "detail": "Format code using Ruff."
+        },
+        {
+            "label": "Ruff: Format + Lint + Fix",
+            "type": "shell",
+            "command": "ruff format . && ruff check . --fix",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "problemMatcher": [],
+            "detail": "Format and fix code."
+        },
+        {
+            "label": "Mypy: Type Check",
+            "type": "shell",
+            "command": "mypy .",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Venv: Create .venv (safe)",
+            "type": "shell",
+            "command": "python3 -m venv .venv && . .venv/bin/activate && python -m pip install -U pip",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Create a local .venv and upgrade pip (macOS/Linux).",
+            "linux": {
+                "command": "python3 -m venv .venv && . .venv/bin/activate && python -m pip install -U pip"
+            },
+            "osx": {
+                "command": "python3 -m venv .venv && . .venv/bin/activate && python -m pip install -U pip"
+            },
+            "windows": {
+                "command": "py -3 -m venv .venv && .\\.venv\\Scripts\\python.exe -m pip install -U pip"
+            }
+        }
+    ]
+}

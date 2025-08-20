@@ -1,0 +1,40 @@
+# Core dependencies
+rich>=13.7.0
+click>=8.1.7
+yt-dlp>=2024.1.1
+pydantic>=2.5.3
+python-dotenv>=1.0.0
+
+# Network and API
+requests>=2.31.0
+websockets>=12.0
+curl_cffi>=0.5.10
+certifi>=2023.11.17
+
+# Database
+sqlalchemy>=2.0.25
+
+# Data processing
+brotli>=1.1.0
+mutagen>=1.47.0
+pycryptodomex>=3.19.1
+
+# File operations
+pathlib2>=2.3.7
+xattr>=0.10.1 ; sys_platform != 'win32'
+
+# Authentication and secrets
+secretstorage>=3.3.3 ; sys_platform == 'linux'
+
+# CLI enhancements
+prompt-toolkit>=3.0.43
+fuzzywuzzy>=0.18.0
+python-Levenshtein>=0.23.0  # For faster fuzzy matching
+
+# PDF generation (optional)
+pdfkit>=1.0.0 ; platform_machine != 'arm64'  # Optional, for PDF export
+wkhtmltopdf>=0.2 ; platform_machine != 'arm64'  # Required by pdfkit
+
+# Media processing
+ffmpeg-python>=0.2.0
+ffprobe>=0.5

@@ -1,0 +1,32 @@
+{
+    "app_info": {
+        "name": "Farmer CLI",
+        "version": "0.1.0",
+        "description": "A powerful CLI application with Rich UI for video downloading"
+    },
+    "ui": {
+        "default_theme": "default",
+        "terminal_width": 80,
+        "show_greeting": true,
+        "confirm_exit": true,
+        "progress_bar_style": "bar"
+    },
+    "performance": {
+        "download_chunk_size": 8192,
+        "max_concurrent_downloads": 3,
+        "ui_refresh_rate": 10,
+        "cache_enabled": true
+    },
+    "logging": {
+        "level": "INFO",
+        "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        "rotation": "daily",
+        "max_files": 7
+    },
+    "features": {
+        "weather_enabled": true,
+        "user_management": true,
+        "export_features": true,
+        "search_enabled": true
+    }
+}

@@ -1,0 +1,215 @@
+{
+    "general": {
+        "coding_style": {
+            "language": "Python",
+            "use_strict": true,
+            "indentation": "4 spaces",
+            "max_line_length": 100,
+            "comments": {
+                "style": "# for single-line, ''' for module/class/function docstrings",
+                "require_comments": true,
+                "comment_scope": "All public methods, classes, UI logic, and non-trivial blocks"
+            },
+            "inline_typing": true,
+            "require_type_hints": true
+        },
+        "naming_conventions": {
+            "variables": "snake_case",
+            "functions": "snake_case",
+            "classes": "PascalCase",
+            "files": "snake_case",
+            "modules": "snake_case",
+            "packages": "snake_case"
+        },
+        "error_handling": {
+            "prefer_try_catch": true,
+            "log_errors": true,
+            "avoid_bare_except": true,
+            "handle_ui_exceptions": true,
+            "custom_exceptions": true
+        },
+        "testing": {
+            "require_tests": true,
+            "test_coverage": "90%",
+            "test_types": [
+                "unit",
+                "integration"
+            ],
+            "test_framework": "pytest",
+            "mock_external_dependencies": true
+        },
+        "documentation": {
+            "require_docs": true,
+            "doc_tool": "docstrings",
+            "style_guide": "Google Python Style Guide",
+            "public_api_docs": true,
+            "project_documentation": true
+        },
+        "security": {
+            "sanitize_inputs": true,
+            "validate_inputs": true,
+            "use_env_vars": true
+        },
+        "configuration_management": {
+            "config_files": [
+                "config/default_config.json",
+                "config/user_config.json"
+            ],
+            "env_management": "python-dotenv",
+            "secrets_management": "environment variables"
+        },
+        "code_review": {
+            "require_reviews": true,
+            "review_tool": "GitHub Pull Requests",
+            "review_criteria": [
+                "functionality",
+                "code quality",
+                "style conformity"
+            ]
+        },
+        "version_control": {
+            "system": "Git",
+            "branching_strategy": "GitHub Flow",
+            "commit_message_format": "Conventional Commits"
+        },
+        "logging": {
+            "logging_tool": "Python logging module",
+            "log_levels": [
+                "debug",
+                "info",
+                "warn",
+                "error"
+            ],
+            "log_retention_policy": "7 days",
+            "use_structured_logs": true
+        },
+        "monitoring": {
+            "monitoring_tool": "Not applicable for CLI applications",
+            "metrics": [
+                "download speed",
+                "processing time",
+                "error rates"
+            ]
+        },
+        "dependency_management": {
+            "package_manager": "pip",
+            "versioning_strategy": "Semantic Versioning",
+            "lockfile": "requirements.txt",
+            "build_tool": "setuptools"
+        },
+        "accessibility": {
+            "standards": [
+                "CLI keyboard navigation",
+                "Clear error messages",
+                "Progress indicators"
+            ],
+            "testing_tools": [
+                "manual testing",
+                "accessibility review"
+            ]
+        },
+        "internationalization": {
+            "i18n_tool": "Not applicable",
+            "supported_languages": [
+                "English"
+            ],
+            "default_language": "English"
+        },
+        "ci_cd": {
+            "ci_tool": "GitHub Actions",
+            "cd_tool": "Not specified",
+            "pipeline_configuration": ".github/workflows/main.yml"
+        },
+        "code_formatting": {
+            "formatter": "Black",
+            "linting_tool": "flake8",
+            "rules": [
+                "PEP 8",
+                "Project-specific rules"
+            ],
+            "autofix": true
+        },
+        "architecture": {
+            "patterns": [
+                "Modular design",
+                "Component-based architecture",
+                "Event-driven"
+            ],
+            "principles": [
+                "Single Responsibility",
+                "DRY",
+                "Separation of Concerns"
+            ]
+        }
+    },
+    "project_specific": {
+        "use_framework": "Rich + Click",
+        "styling": "Rich styling and theming",
+        "testing_framework": "pytest",
+        "build_tool": "setuptools",
+        "deployment": {
+            "environment": "Local terminal CLI",
+            "automation": "Not specified",
+            "strategy": "Manual CLI installation"
+        },
+        "performance": {
+            "benchmarking_tool": "internal metrics",
+            "performance_goals": {
+                "download_speed": "optimize for user's connection",
+                "ui_responsiveness": "< 100ms",
+                "memory_usage": "minimal overhead"
+            }
+        }
+    },
+    "context": {
+        "codebase_overview": "Python CLI application for video downloading with Rich UI",
+        "libraries": [
+            "rich",
+            "click",
+            "yt-dlp",
+            "pydantic",
+            "requests",
+            "websockets",
+            "brotli",
+            "certifi",
+            "ffprobe",
+            "ffmpeg",
+            "curl_cffi",
+            "mutagen",
+            "xattr",
+            "pycryptodomex",
+            "secretstorage",
+            "pathlib2",
+            "pytest",
+            "pytest-cov",
+            "black",
+            "flake8"
+        ],
+        "coding_practices": {
+            "modularity": true,
+            "DRY_principle": true,
+            "performance_optimization": true,
+            "error_handling": true,
+            "type_safety": true
+        },
+        "cli": {
+            "framework": "Click for CLI interface",
+            "ui_framework": "Rich for terminal UI",
+            "command_structure": "Use Click decorators and commands",
+            "ui_components": "Use Rich panels, tables, progress bars",
+            "error_handling": "Graceful error handling with user-friendly messages"
+        }
+    },
+    "behavior": {
+        "verbosity": {
+            "level": 2,
+            "range": [
+                0,
+                3
+            ]
+        },
+        "handle_incomplete_tasks": "Provide partial solution and explain limitations",
+        "ask_for_clarification": true,
+        "communication_tone": "Professional and concise"
+    }
+}
