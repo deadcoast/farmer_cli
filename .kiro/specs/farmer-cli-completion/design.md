@@ -12,22 +12,22 @@ The design follows the existing modular architecture with clear separation betwe
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        CLI Interface                             │
-│  (Click-based argument parsing + Interactive Rich UI)            │
+│                        CLI Interface                            │
+│  (Click-based argument parsing + Interactive Rich UI)           │
 ├─────────────────────────────────────────────────────────────────┤
-│                      Feature Layer                               │
+│                      Feature Layer                              │
 │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐             │
 │  │   Video      │ │    User      │ │   System     │             │
 │  │  Downloader  │ │  Management  │ │    Tools     │             │
 │  └──────────────┘ └──────────────┘ └──────────────┘             │
 ├─────────────────────────────────────────────────────────────────┤
-│                      Service Layer                               │
+│                      Service Layer                              │
 │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐             │
 │  │  Download    │ │  Preferences │ │   Export     │             │
 │  │   Manager    │ │   Service    │ │   Service    │             │
 │  └──────────────┘ └──────────────┘ └──────────────┘             │
 ├─────────────────────────────────────────────────────────────────┤
-│                       Core Layer                                 │
+│                       Core Layer                                │
 │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐             │
 │  │   Database   │ │    Config    │ │   Logging    │             │
 │  │   Manager    │ │   Settings   │ │   System     │             │
