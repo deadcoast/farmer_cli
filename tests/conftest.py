@@ -47,6 +47,11 @@ def db_session(db_engine) -> Generator[Session, None, None]:
     """Provide a database session with automatic cleanup."""
     from farmer_cli.models.base import Base
 
+    # Import all models to ensure they are registered
+    from farmer_cli.models import DownloadHistory  # noqa: F401
+    from farmer_cli.models import QueueItem  # noqa: F401
+    from farmer_cli.models import User  # noqa: F401
+
     # Create all tables
     Base.metadata.create_all(db_engine)
 

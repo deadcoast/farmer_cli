@@ -30,62 +30,62 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - **Property 14: Filename Template Rendering**
     - **Validates: Requirements 6.2**
 
-- [ ] 2. Checkpoint - Ensure all tests pass
+- [x] 2. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 3. Implement yt-dlp wrapper service
-  - [ ] 3.1 Create data classes for video information (services/ytdlp_wrapper.py)
+- [x] 3. Implement yt-dlp wrapper service
+  - [x] 3.1 Create data classes for video information (services/ytdlp_wrapper.py)
     - Define `DownloadStatus` enum
     - Define `VideoFormat` dataclass with format_id, resolution, codec, filesize
     - Define `VideoInfo` dataclass with url, title, uploader, formats
     - Define `DownloadProgress` dataclass for progress tracking
     - _Requirements: 2.2_
-  - [ ] 3.2 Write property tests for format information completeness
+  - [x] 3.2 Write property tests for format information completeness
     - **Property 6: Format Information Completeness**
     - **Validates: Requirements 2.2**
-  - [ ] 3.3 Implement YtdlpWrapper.extract_info() method
+  - [x] 3.3 Implement YtdlpWrapper.extract_info() method
     - Wrap yt-dlp's extract_info with proper error handling
     - Convert yt-dlp dict to VideoInfo dataclass
     - Handle network errors and invalid URLs gracefully
     - _Requirements: 1.1, 1.2_
-  - [ ] 3.4 Implement YtdlpWrapper.get_formats() method
+  - [x] 3.4 Implement YtdlpWrapper.get_formats() method
     - Extract available formats from video info
     - Filter and sort formats by quality
     - Support audio-only format filtering
     - _Requirements: 2.1, 2.4_
-  - [ ] 3.5 Implement YtdlpWrapper.download() method
+  - [x] 3.5 Implement YtdlpWrapper.download() method
     - Configure yt-dlp options for download
     - Implement progress callback integration
     - Handle download interruption and resumption
     - Verify file integrity after download
     - _Requirements: 1.1, 1.3, 1.4, 1.5_
-  - [ ] 3.6 Implement YtdlpWrapper.extract_playlist() method
+  - [x] 3.6 Implement YtdlpWrapper.extract_playlist() method
     - Extract all video entries from playlist URL
     - Handle pagination for large playlists
     - Return list of VideoInfo objects
     - _Requirements: 3.1_
 
-- [ ] 4. Checkpoint - Ensure all tests pass
+- [x] 4. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Implement database models for downloads
-  - [ ] 5.1 Create QueueItem model (models/download.py)
+- [x] 5. Implement database models for downloads
+  - [x] 5.1 Create QueueItem model (models/download.py)
     - Define SQLAlchemy model with all required fields
     - Add indexes for status and position columns
     - Implement validation for status transitions
     - _Requirements: 4.1, 4.2_
-  - [ ] 5.2 Create DownloadHistory model (models/history.py)
+  - [x] 5.2 Create DownloadHistory model (models/history.py)
     - Define SQLAlchemy model with all required fields
     - Add index on url column for duplicate detection
     - Add index on downloaded_at for sorting
     - _Requirements: 5.1, 5.2_
-  - [ ] 5.3 Write property tests for history entry completeness
+  - [x] 5.3 Write property tests for history entry completeness
     - **Property 7: History Entry Completeness**
     - **Validates: Requirements 5.2**
-  - [ ] 5.4 Write property tests for queue item completeness
+  - [x] 5.4 Write property tests for queue item completeness
     - **Property 8: Queue Item Completeness**
     - **Validates: Requirements 4.2**
-  - [ ] 5.5 Update database initialization to create new tables
+  - [x] 5.5 Update database initialization to create new tables
     - Add migration for new tables
     - Update DatabaseManager.initialize() method
     - _Requirements: 11.3_

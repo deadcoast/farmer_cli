@@ -12,12 +12,13 @@ from pathlib import Path
 from typing import Generator
 from typing import Optional
 
-from config.settings import settings
-from exceptions import DatabaseError
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import sessionmaker
+
+from config.settings import settings
+from exceptions import DatabaseError
 
 
 logger = logging.getLogger(__name__)
@@ -72,6 +73,8 @@ class DatabaseManager:
             # Create tables using raw SQL for initial setup
             with sqlite3.connect(str(self.database_path)) as conn:
                 cursor = conn.cursor()
+
+                # Users table
                 cursor.execute(
                     """
                     CREATE TABLE IF NOT EXISTS users (
@@ -84,7 +87,7 @@ class DatabaseManager:
                 """
                 )
 
-                # Add trigger for updated_at
+                # Add trigger for updated_at on users
                 cursor.execute(
                     """
                     CREATE TRIGGER IF NOT EXISTS update_users_timestamp
@@ -96,9 +99,122 @@ class DatabaseManager:
                 """
                 )
 
+                # Download queue table
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS download_queue (
+                        id TEXT PRIMARY KEY,
+                        url TEXT NOT NULL,
+                        title TEXT,
+                        format_id TEXT,
+                        output_path TEXT NOT NULL,
+                        status TEXT NOT NULL DEFAULT 'pending',
+                        progress REAL NOT NULL DEFAULT 0.0,
+                        position INTEGER NOT NULL,
+                        error_message TEXT,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """
+                )
+
+                # Add indexes for download_queue
+                cursor.execute(
+                    """
+                    CREATE INDEX IF NOT EXISTS ix_download_queue_status
+                    ON download_queue (status)
+                """
+                )
+                cursor.execute(
+                    """
+                    CREATE INDEX IF NOT EXISTS ix_download_queue_position
+                    ON download_queue (position)
+                """
+                )
+                cursor.execute(
+                    """
+                    CREATE INDEX IF NOT EXISTS ix_download_queue_status_position
+                    ON download_queue (status, position)
+                """
+                )
+
+                # Add trigger for updated_at on download_queue
+                cursor.execute(
+                    """
+                    CREATE TRIGGER IF NOT EXISTS update_download_queue_timestamp
+                    AFTER UPDATE ON download_queue
+                    BEGIN
+                        UPDATE download_queue SET updated_at = CURRENT_TIMESTAMP
+                        WHERE id = NEW.id;
+                    END
+                """
+                )
+
+                # Download history table
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS download_history (
+                        id TEXT PRIMARY KEY,
+                        url TEXT NOT NULL,
+                        title TEXT NOT NULL,
+                        file_path TEXT NOT NULL,
+                        file_size INTEGER,
+                        format_id TEXT,
+                        duration INTEGER,
+                        uploader TEXT,
+                        downloaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        status TEXT NOT NULL DEFAULT 'completed',
+                        thumbnail_url TEXT,
+                        description TEXT,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """
+                )
+
+                # Add indexes for download_history
+                cursor.execute(
+                    """
+                    CREATE INDEX IF NOT EXISTS ix_download_history_url
+                    ON download_history (url)
+                """
+                )
+                cursor.execute(
+                    """
+                    CREATE INDEX IF NOT EXISTS ix_download_history_downloaded_at
+                    ON download_history (downloaded_at)
+                """
+                )
+                cursor.execute(
+                    """
+                    CREATE INDEX IF NOT EXISTS ix_download_history_status
+                    ON download_history (status)
+                """
+                )
+                cursor.execute(
+                    """
+                    CREATE INDEX IF NOT EXISTS ix_download_history_title
+                    ON download_history (title)
+                """
+                )
+
+                # Add trigger for updated_at on download_history
+                cursor.execute(
+                    """
+                    CREATE TRIGGER IF NOT EXISTS update_download_history_timestamp
+                    AFTER UPDATE ON download_history
+                    BEGIN
+                        UPDATE download_history SET updated_at = CURRENT_TIMESTAMP
+                        WHERE id = NEW.id;
+                    END
+                """
+                )
+
                 conn.commit()
 
             # Import models to register them with SQLAlchemy
+            from ..models import DownloadHistory  # noqa: F401  # type: ignore[import]
+            from ..models import QueueItem  # noqa: F401  # type: ignore[import]
             from ..models import User  # noqa: F401  # type: ignore[import]
 
             # Create all tables using SQLAlchemy
