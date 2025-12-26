@@ -1,6 +1,6 @@
 ---
 description: Python best practices and patterns for Farmer CLI
-globs: src/**/*.py,tests/**/*.py
+globs: src/**/*.py,tests/**/*.py,setup.py
 alwaysApply: false
 ---
 # Repository Guidelines
