@@ -21,13 +21,13 @@ from .validators import validate_positive_int
 __all__ = [
     # Decorators
     "cached",
+    # Cleanup
+    "cleanup_handler",
     "log_execution",
+    "register_cleanup",
     "require_confirmation",
     "retry",
     "timer",
-    # Cleanup
-    "cleanup_handler",
-    "register_cleanup",
     # Validators
     "validate_email",
     "validate_json",

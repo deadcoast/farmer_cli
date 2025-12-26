@@ -20,20 +20,20 @@ from .widgets import show_progress
 
 
 __all__ = [
-    # Console
-    "console",
-    "setup_console",
     # Menu
     "MenuManager",
+    # Prompts
+    "choice_prompt",
+    "confirm_prompt",
+    # Console
+    "console",
     # Widgets
     "create_frame",
     "create_main_layout",
     "create_table",
     "display_greeting",
-    "show_progress",
-    # Prompts
-    "choice_prompt",
-    "confirm_prompt",
     "password_prompt",
+    "setup_console",
+    "show_progress",
     "text_prompt",
 ]

@@ -11,12 +11,12 @@ from .cli_exceptions import ValidationError
 
 
 __all__ = [
-    "FarmerCLIError",
+    "APIError",
+    "AuthenticationError",
     "ConfigurationError",
     "DatabaseError",
+    "FarmerCLIError",
+    "FileOperationError",
     "NetworkError",
     "ValidationError",
-    "FileOperationError",
-    "AuthenticationError",
-    "APIError",
 ]

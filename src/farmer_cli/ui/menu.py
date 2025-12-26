@@ -11,7 +11,6 @@ from typing import Tuple
 
 from rich.align import Align
 from rich.prompt import Prompt
-
 from themes import DOUBLE_LINE
 from themes import THEMES
 

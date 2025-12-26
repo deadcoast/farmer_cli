@@ -144,7 +144,7 @@ def export_help_to_pdf(filename: Optional[str] = None) -> None:
             # Test if wkhtmltopdf is available
             import subprocess
 
-            result = subprocess.run(['which', 'wkhtmltopdf'], capture_output=True, text=True)
+            result = subprocess.run(["which", "wkhtmltopdf"], capture_output=True, text=True)
             if result.returncode == 0:
                 can_use_pdfkit = True
         except Exception:
@@ -177,7 +177,7 @@ def export_help_to_pdf(filename: Optional[str] = None) -> None:
                 temp_html.unlink()
 
     # Final fallback to HTML export
-    html_file = output_file.with_suffix('.html')
+    html_file = output_file.with_suffix(".html")
     console.print(
         f"[bold yellow]Note: PDF generation unavailable. " f"Exporting to HTML instead: {html_file}[/bold yellow]"
     )
@@ -218,28 +218,28 @@ def generate_help_pdf_with_reportlab(filename: str) -> None:
 
     # Custom styles
     title_style = ParagraphStyle(
-        'CustomTitle',
-        parent=styles['Heading1'],
+        "CustomTitle",
+        parent=styles["Heading1"],
         fontSize=24,
-        textColor=colors.HexColor('#2c3e50'),
+        textColor=colors.HexColor("#2c3e50"),
         spaceAfter=30,
         alignment=TA_CENTER,
     )
 
     heading_style = ParagraphStyle(
-        'CustomHeading',
-        parent=styles['Heading2'],
+        "CustomHeading",
+        parent=styles["Heading2"],
         fontSize=16,
-        textColor=colors.HexColor('#34495e'),
+        textColor=colors.HexColor("#34495e"),
         spaceAfter=12,
         spaceBefore=20,
     )
 
-    feature_style = ParagraphStyle('Feature', parent=styles['Normal'], fontSize=12, leftIndent=20, spaceAfter=10)
+    feature_style = ParagraphStyle("Feature", parent=styles["Normal"], fontSize=12, leftIndent=20, spaceAfter=10)
 
     # Add content
     story.append(Paragraph(f"{APP_NAME} v{APP_VERSION}", title_style))
-    story.append(Paragraph("Help Documentation", styles['Heading2']))
+    story.append(Paragraph("Help Documentation", styles["Heading2"]))
     story.append(Spacer(1, 0.5 * inch))
 
     # Overview
@@ -248,7 +248,7 @@ def generate_help_pdf_with_reportlab(filename: str) -> None:
         Paragraph(
             f"{APP_NAME} is a powerful command-line interface application with a rich terminal UI "
             "for managing various tasks including data processing, user management, and system tools.",
-            styles['Normal'],
+            styles["Normal"],
         )
     )
     story.append(Spacer(1, 0.3 * inch))

@@ -5,16 +5,10 @@ This module provides a visual demonstration of all available themes
 and their various styling elements.
 """
 
-from time import sleep
 from typing import Any
 from typing import Dict
 
-from rich.align import Align
-from rich.columns import Columns
-from rich.panel import Panel
 from rich.table import Table
-
-from themes import ASCII_ELEMENTS
 from themes import THEMES
 from themes import VISUAL_ELEMENTS
 
@@ -22,7 +16,6 @@ from ..ui.console import console
 from ..ui.prompts import confirm_prompt
 from ..ui.widgets import create_custom_progress_bar
 from ..ui.widgets import create_frame
-from ..ui.widgets import create_table
 from .base import BaseFeature
 
 
@@ -90,13 +83,13 @@ class ThemeShowcaseFeature(BaseFeature):
         console.print(f"[{theme_data['header_style']}]2. Color Palette[/{theme_data['header_style']}]")
 
         color_items = [
-            ("Title", theme_data['title_style'], "Main headings"),
-            ("Subtitle", theme_data['subtitle_style'], "Secondary headings"),
-            ("Success", theme_data['success_style'], "Success messages"),
-            ("Error", theme_data['error_style'], "Error messages"),
-            ("Warning", theme_data['warning_style'], "Warning messages"),
-            ("Info", theme_data['info_style'], "Information messages"),
-            ("Prompt", theme_data['prompt_style'], "User prompts"),
+            ("Title", theme_data["title_style"], "Main headings"),
+            ("Subtitle", theme_data["subtitle_style"], "Secondary headings"),
+            ("Success", theme_data["success_style"], "Success messages"),
+            ("Error", theme_data["error_style"], "Error messages"),
+            ("Warning", theme_data["warning_style"], "Warning messages"),
+            ("Info", theme_data["info_style"], "Information messages"),
+            ("Prompt", theme_data["prompt_style"], "User prompts"),
         ]
 
         for label, style, desc in color_items:
@@ -108,8 +101,8 @@ class ThemeShowcaseFeature(BaseFeature):
 
         table = Table(
             title="Sample Data Table",
-            style=theme_data.get('table_row_style', 'white'),
-            header_style=theme_data.get('table_header_style', 'bold white on blue'),
+            style=theme_data.get("table_row_style", "white"),
+            header_style=theme_data.get("table_header_style", "bold white on blue"),
         )
 
         table.add_column("ID", style="bold")
@@ -120,9 +113,9 @@ class ThemeShowcaseFeature(BaseFeature):
         # Add sample rows with alternating colors
         for i in range(3):
             row_style = (
-                theme_data['table_row_style']
+                theme_data["table_row_style"]
                 if i % 2 == 0
-                else theme_data.get('table_alt_row_style', theme_data['table_row_style'])
+                else theme_data.get("table_alt_row_style", theme_data["table_row_style"])
             )
             status = "Active" if i == 0 else "Pending" if i == 1 else "Complete"
             progress = create_custom_progress_bar(

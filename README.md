@@ -1,6 +1,6 @@
 # Farmer CLI
 
-A powerful CLI application with Rich UI for video downloading and media management.
+A modular CLI application with Rich UI for video downloading and system management.
 
 ## Features
 
@@ -17,12 +17,15 @@ A powerful CLI application with Rich UI for video downloading and media manageme
 
 ## Installation
 
-### From Source
+Requires Python 3.10+.
+
+### From Source (uv recommended)
 
 ```bash
-git clone https://github.com/yourusername/farmer-cli.git
+git clone https://github.com/deadcoast/farmer-cli.git
 cd farmer-cli
-pip install -e .
+uv sync
+uv run farmer-cli
 ```
 
 ### Using pip
@@ -37,6 +40,12 @@ Run the application:
 
 ```bash
 farmer-cli
+```
+
+If you're using uv without installing the entrypoint, run:
+
+```bash
+uv run farmer-cli
 ```
 
 ### Keyboard Shortcuts
@@ -57,7 +66,7 @@ farmer-cli
 The application uses environment variables for sensitive data. Create a `.env` file:
 
 ```bash
-cp env.example .env
+cp .env.example .env
 # Edit .env with your API keys
 ```
 
@@ -70,31 +79,34 @@ cp env.example .env
 ### Setup Development Environment
 
 ```bash
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+uv sync --extra dev
+```
 
-# Install development dependencies
+If you prefer pip:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\\Scripts\\activate
 pip install -r requirements-dev.txt
-
-# Install in editable mode
 pip install -e .
 ```
 
 ### Running Tests
 
 ```bash
-pytest
+uv run pytest
 ```
+
+If you're using a pip/venv setup, run `pytest` directly.
 
 ### Code Style
 
 This project uses:
 
-- Black for code formatting
+- Ruff for formatting and linting
 - isort for import sorting
-- flake8 for linting
-- mypy for type checking
+- Black (optional, if you prefer black formatting)
+- mypy and pyright for type checking
 
 ## License
 

@@ -4,3 +4,9 @@
 # Normalized and converts to native line endings on checkout.
 *.py text
 *.pyx text
+*.json text
+*.md text
+*.sh text
+*.toml text
+*.yaml text
+*.yml text

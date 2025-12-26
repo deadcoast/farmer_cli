@@ -20,7 +20,6 @@ from rich.progress import SpinnerColumn
 from rich.progress import TextColumn
 from rich.table import Table
 from rich.text import Text
-
 from themes import DOUBLE_LINE
 from themes import THEMES
 from themes import VISUAL_ELEMENTS

@@ -19,4 +19,4 @@ from .database import DatabaseManager
 from .database import get_session
 
 
-__all__ = ["FarmerCLI", "DatabaseManager", "get_session", "APP_NAME", "APP_VERSION", "MENU_OPTIONS", "DEFAULT_THEME"]
+__all__ = ["APP_NAME", "APP_VERSION", "DEFAULT_THEME", "MENU_OPTIONS", "DatabaseManager", "FarmerCLI", "get_session"]

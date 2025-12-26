@@ -1,3 +1,5 @@
+# Development dependencies
+# Keep in sync with `pyproject.toml` [project.optional-dependencies].dev.
 # Packaging
 # python -m pip install -U pip
 build>=1.0.3

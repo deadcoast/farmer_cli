@@ -12,13 +12,12 @@ from pathlib import Path
 from typing import Generator
 from typing import Optional
 
+from config.settings import settings
+from exceptions import DatabaseError
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import sessionmaker
-
-from config.settings import settings
-from exceptions import DatabaseError
 
 
 logger = logging.getLogger(__name__)

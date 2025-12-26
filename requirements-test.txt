@@ -1,4 +1,5 @@
 # Testing
+# Keep in sync with `pyproject.toml` [project.optional-dependencies].test.
 pytest>=8.0.0
 pytest-cov>=4.1.0
 pytest-benchmark>=4.0.0

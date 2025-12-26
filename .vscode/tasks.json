@@ -6,6 +6,12 @@
             "type": "shell",
             "command": "${command:python.interpreterPath} ${file}",
             "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}/src"
+                }
+            },
             "group": "build"
         },
         {

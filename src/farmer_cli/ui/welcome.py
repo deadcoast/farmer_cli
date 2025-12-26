@@ -11,7 +11,6 @@ from rich.align import Align
 from rich.columns import Columns
 from rich.panel import Panel
 from rich.text import Text
-
 from themes import THEMES
 from themes import VISUAL_ELEMENTS
 

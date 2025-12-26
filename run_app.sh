@@ -9,5 +9,8 @@ if [ -f ".venv/bin/activate" ]; then
     source .venv/bin/activate
 fi
 
+# Ensure src layout is on PYTHONPATH for local runs
+export PYTHONPATH="$(pwd)/src${PYTHONPATH:+:$PYTHONPATH}"
+
 # Run the application
-python src/cli.py
+python -m farmer_cli

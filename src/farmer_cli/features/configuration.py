@@ -62,7 +62,7 @@ class ConfigurationFeature(BaseFeature):
         theme_list = list(THEMES.keys())
         for idx, theme_key in enumerate(theme_list, 1):
             theme_data = THEMES[theme_key]
-            name = theme_data.get("name", theme_key.replace('_', ' ').title())
+            name = theme_data.get("name", theme_key.replace("_", " ").title())
             description = theme_data.get("description", "")
             console.print(f"\n{idx}. [bold]{name}[/bold]")
             if description:

@@ -1,8 +1,8 @@
 {
     "app_info": {
         "name": "Farmer CLI",
-        "version": "0.1.0",
-        "description": "A powerful CLI application with Rich UI for video downloading"
+        "version": "0.2.0",
+        "description": "A modular CLI application with Rich UI for video downloading and system management"
     },
     "ui": {
         "default_theme": "default",

@@ -9,6 +9,10 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [],
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
             "justMyCode": true
         },
         {

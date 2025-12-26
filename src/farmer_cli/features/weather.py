@@ -8,7 +8,6 @@ the OpenWeatherMap API.
 import logging
 
 import requests
-
 from config.settings import settings
 from exceptions import APIError
 from exceptions import ConfigurationError

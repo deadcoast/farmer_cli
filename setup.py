@@ -1,7 +1,9 @@
 """Setup script for Farmer CLI."""
-from setuptools import find_packages, setup
-
 from pathlib import Path
+
+from setuptools import find_packages
+from setuptools import setup
+
 
 # Read the README file
 readme_file = Path(__file__).parent / "README.md"
@@ -10,12 +12,23 @@ if readme_file.exists():
     with open(readme_file, "r", encoding="utf-8") as f:
         long_description = f.read()
 
-# Read requirements
-requirements_file = Path(__file__).parent / "requirements.txt"
-requirements = []
-if requirements_file.exists():
+
+def read_requirements(filename: str) -> list[str]:
+    requirements_file = Path(__file__).parent / filename
+    if not requirements_file.exists():
+        return []
     with open(requirements_file, "r", encoding="utf-8") as f:
-        requirements = [line.strip() for line in f if line.strip() and not line.startswith(("#", "-r"))]
+        return [line.strip() for line in f if line.strip() and not line.startswith(("#", "-r"))]
+
+
+requirements = read_requirements("requirements.txt")
+dev_requirements = read_requirements("requirements-dev.txt")
+test_requirements = read_requirements("requirements-test.txt")
+extras_require = {}
+if dev_requirements:
+    extras_require["dev"] = dev_requirements
+if test_requirements:
+    extras_require["test"] = test_requirements
 
 setup(
     name="farmer-cli",
@@ -46,6 +59,7 @@ setup(
     ],
     python_requires=">=3.10",
     install_requires=requirements,
+    extras_require=extras_require,
     entry_points={"console_scripts": ["farmer-cli=farmer_cli.__main__:main"]},
     include_package_data=True,
     package_data={"": ["*.json", "*.sql"]},
