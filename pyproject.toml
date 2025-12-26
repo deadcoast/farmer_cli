@@ -26,10 +26,10 @@ keywords = ["cli", "terminal", "rich", "video", "downloader", "yt-dlp"]
 dynamic = ["dependencies", "optional-dependencies"]
 
 [project.urls]
-Homepage = "https://github.com/farmercli/farmer-cli"
+Homepage = "https://github.com/deadcoast/farmer-cli"
 Documentation = "https://farmercli.readthedocs.io"
-Repository = "https://github.com/farmercli/farmer-cli.git"
-Issues = "https://github.com/farmercli/farmer-cli/issues"
+Repository = "https://github.com/deadcoast/farmer-cli.git"
+Issues = "https://github.com/deadcoast/farmer-cli/issues"
 
 [project.scripts]
 farmer-cli = "farmer_cli.__main__:main"
@@ -40,6 +40,14 @@ include = ["farmer_cli*"]
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }
+[tool.setuptools.dynamic.optional-dependencies]
+test = { file = ["requirements-test.txt"] }
+dev = { file = ["requirements-dev.txt"] }
+[tool.poetry]
+name = "farmer-cli"
+version = "0.2.0"
+description = "A modular CLI application with Rich UI for video downloading and system management"
+authors = ["Farmer CLI Team <XXXXXXXXXXXXXXXXXXXXX>"]
 
 [tool.black]
 target-version = ['py310']
