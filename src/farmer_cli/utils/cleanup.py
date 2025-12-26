@@ -30,6 +30,13 @@ def register_cleanup(handler: Callable[[], None]) -> None:
     _cleanup_handlers.append(handler)
 
 
+def _run_cleanup_handler(handler: Callable[[], None]) -> None:
+    try:
+        handler()
+    except Exception as e:
+        logger.error(f"Cleanup handler failed: {e}")
+
+
 def cleanup_handler() -> None:
     """
     Main cleanup handler called on application exit.
@@ -59,10 +66,7 @@ def cleanup_handler() -> None:
 
         # Run registered cleanup handlers
         for handler in _cleanup_handlers:
-            try:
-                handler()
-            except Exception as e:
-                logger.error(f"Cleanup handler failed: {e}")
+            _run_cleanup_handler(handler)
 
         logger.info("Application exited gracefully")
 

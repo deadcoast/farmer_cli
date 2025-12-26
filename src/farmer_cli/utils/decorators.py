@@ -65,21 +65,27 @@ def retry(max_attempts: int = 3, delay: float = 1.0, backoff: float = 2.0):
         @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             current_delay = delay
-            last_exception = None
+            last_exception: Optional[Exception] = None
+
+            def call_once() -> tuple[bool, Any, Optional[Exception]]:
+                try:
+                    return True, func(*args, **kwargs), None
+                except Exception as e:
+                    return False, None, e
 
             for attempt in range(max_attempts):
-                try:
-                    return func(*args, **kwargs)
-                except Exception as e:
-                    last_exception = e
-                    if attempt < max_attempts - 1:
-                        logger.warning(f"{func.__name__} failed (attempt {attempt + 1}/{max_attempts}): {e}")
-                        time.sleep(current_delay)
-                        current_delay *= backoff
-                    else:
-                        logger.error(f"{func.__name__} failed after {max_attempts} attempts: {e}")
+                ok, result, error = call_once()
+                if ok:
+                    return result
+                last_exception = error
+                if attempt < max_attempts - 1:
+                    logger.warning(f"{func.__name__} failed (attempt {attempt + 1}/{max_attempts}): {error}")
+                    time.sleep(current_delay)
+                    current_delay *= backoff
+                else:
+                    logger.error(f"{func.__name__} failed after {max_attempts} attempts: {error}")
 
-            if last_exception:
+            if last_exception is not None:
                 raise last_exception
 
         return wrapper  # type: ignore

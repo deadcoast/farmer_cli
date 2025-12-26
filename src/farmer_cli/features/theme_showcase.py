@@ -140,7 +140,7 @@ class ThemeShowcaseFeature(BaseFeature):
         # 5. Progress indicators
         console.print(f"[{theme_data['header_style']}]5. Progress Indicators[/{theme_data['header_style']}]")
 
-        for i, (label, value) in enumerate([("Download", 75), ("Processing", 45), ("Upload", 90)]):
+        for label, value in [("Download", 75), ("Processing", 45), ("Upload", 90)]:
             bar = create_custom_progress_bar(current=value, total=100, width=30, theme=theme_key, label=label.ljust(12))
             console.print(f"  {bar}")
 

@@ -393,10 +393,19 @@ ASCII_ELEMENTS: Dict[str, str] = {
 
 # Application-specific help texts
 HELP_TEXTS: Dict[str, str] = {
-    "data_processing": "Access powerful data manipulation tools including code display, system information, data tables, and progress tracking.",
-    "user_management": "Manage application users - add new users, view existing users, and export user data in various formats.",
-    "configuration": "Customize your experience with themes, display settings, time formats, and searchable help documentation.",
-    "system_tools": "System utilities including file browser, weather information, documentation export, and feedback submission.",
+    "data_processing": (
+        "Access powerful data manipulation tools including code display, system information, data tables, "
+        "and progress tracking."
+    ),
+    "user_management": (
+        "Manage application users - add new users, view existing users, and export user data in various formats."
+    ),
+    "configuration": (
+        "Customize your experience with themes, display settings, time formats, and searchable help documentation."
+    ),
+    "system_tools": (
+        "System utilities including file browser, weather information, documentation export, and feedback submission."
+    ),
     "exit": "Save your work and exit the application safely.",
     "theme_selection": "Choose from multiple visual themes to personalize your terminal experience.",
     "navigation": "Use number keys to select options, Enter to confirm, and 0 to go back.",

@@ -249,7 +249,6 @@ def create_custom_progress_bar(
     empty_width = width - filled_width
 
     # Get theme elements
-    theme_config = THEMES.get(theme, THEMES["default"])
     elements = VISUAL_ELEMENTS
 
     # Build progress bar
