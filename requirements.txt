@@ -3,6 +3,7 @@ rich>=13.7.0
 click>=8.1.7
 yt-dlp>=2024.1.1
 pydantic>=2.5.3
+pydantic-settings>=2.0.0
 python-dotenv>=1.0.0
 
 # Network and API
@@ -32,8 +33,8 @@ fuzzywuzzy>=0.18.0
 python-Levenshtein>=0.23.0  # For faster fuzzy matching
 
 # PDF generation (optional)
-pdfkit>=1.0.0 ; platform_machine != 'arm64'  # Optional, for PDF export
-wkhtmltopdf>=0.2 ; platform_machine != 'arm64'  # Required by pdfkit
+pdfkit>=1.0.0  # Optional, for PDF export (requires wkhtmltopdf system package)
+reportlab>=4.0.0  # Alternative PDF generation (pure Python)
 
 # Media processing
 ffmpeg-python>=0.2.0

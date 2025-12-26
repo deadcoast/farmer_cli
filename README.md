@@ -4,16 +4,16 @@ A powerful CLI application with Rich UI for video downloading and media manageme
 
 ## Features
 
-- 🎨 Beautiful terminal UI with Rich library
-- 🎬 Video downloading with yt-dlp integration
-- 👥 User management system
-- 🎯 Interactive menus with keyboard shortcuts
-- 🌈 Multiple themes (default, dark, light, high contrast)
-- 📊 Progress tracking and system monitoring
-- 🔍 Fuzzy search capabilities
-- 📄 Export functionality (CSV, PDF)
-- 🌤️ Weather checking integration
-- 📁 File browser
+- Beautiful terminal UI with Rich library
+- Video downloading with yt-dlp integration
+- User management system
+- Interactive menus with keyboard shortcuts
+- Multiple themes (default, dark, light, high contrast)
+- Progress tracking and system monitoring
+- Fuzzy search capabilities
+- Export functionality (CSV, PDF)
+- Weather checking integration
+- File browser
 
 ## Installation
 
@@ -90,6 +90,7 @@ pytest
 ### Code Style
 
 This project uses:
+
 - Black for code formatting
 - isort for import sorting
 - flake8 for linting

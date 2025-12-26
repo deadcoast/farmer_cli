@@ -16,11 +16,7 @@ requirements_file = Path(__file__).parent / "requirements.txt"
 requirements = []
 if requirements_file.exists():
     with open(requirements_file, "r", encoding="utf-8") as f:
-        requirements = [
-            line.strip()
-            for line in f
-            if line.strip() and not line.startswith(("#", "-r"))
-        ]
+        requirements = [line.strip() for line in f if line.strip() and not line.startswith(("#", "-r"))]
 
 setup(
     name="farmer-cli",
@@ -47,13 +43,7 @@ setup(
     ],
     python_requires=">=3.8",
     install_requires=requirements,
-    entry_points={
-        "console_scripts": [
-            "farmer-cli=cli:main",
-        ],
-    },
+    entry_points={"console_scripts": ["farmer-cli=cli:main"]},
     include_package_data=True,
-    package_data={
-        "": ["*.json", "*.sql"],
-    },
+    package_data={"": ["*.json", "*.sql"]},
 )

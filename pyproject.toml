@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "farmer-cli"
-version = "0.1.0"
-description = "A powerful CLI application with Rich UI for video downloading"
+version = "0.2.0"
+description = "A modular CLI application with Rich UI for video downloading and system management"
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
@@ -22,13 +22,21 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
 ]
+keywords = ["cli", "terminal", "rich", "video", "downloader", "yt-dlp"]
 dynamic = ["dependencies", "optional-dependencies"]
 
+[project.urls]
+Homepage = "https://github.com/farmercli/farmer-cli"
+Documentation = "https://farmercli.readthedocs.io"
+Repository = "https://github.com/farmercli/farmer-cli.git"
+Issues = "https://github.com/farmercli/farmer-cli/issues"
+
 [project.scripts]
-farmer-cli = "cli:main"
+farmer-cli = "farmer_cli.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["farmer_cli*"]
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }

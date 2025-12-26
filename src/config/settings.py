@@ -5,16 +5,15 @@ This module handles configuration management using pydantic for validation
 and python-dotenv for environment variable loading.
 """
 
-import os
 from pathlib import Path
 from typing import Any
 from typing import Dict
 from typing import Optional
 
 from dotenv import load_dotenv
-from pydantic import BaseSettings
 from pydantic import Field
-from pydantic import validator
+from pydantic import field_validator
+from pydantic_settings import BaseSettings
 
 
 # Load environment variables from .env file
@@ -37,10 +36,8 @@ class Settings(BaseSettings):
 
     # API Keys
     openweather_api_key: Optional[str] = Field(
-        default=None,
-        env="OPENWEATHER_API_KEY",
-        description="OpenWeatherMap API key"
-    )
+        default=None, env="OPENWEATHER_API_KEY", description="OpenWeatherMap API key"
+    )  # type: ignore
 
     # Database settings
     database_dir: Path = Field(default=DATA_DIR / "database", description="Database directory")
@@ -59,13 +56,10 @@ class Settings(BaseSettings):
     ui_responsiveness_ms: int = Field(default=100, description="UI responsiveness target in ms")
     progress_refresh_rate: int = Field(default=10, description="Progress bar refresh rate")
 
-    class Config:
-        """Pydantic configuration."""
-        env_file = PROJECT_ROOT / ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = False
+    model_config = {"env_file": PROJECT_ROOT / ".env", "env_file_encoding": "utf-8", "case_sensitive": False}
 
-    @validator("database_dir", "log_file", pre=True)
+    @field_validator("database_dir", "log_file", mode="before")
+    @classmethod
     def ensure_path(cls, v: Any) -> Path:
         """Ensure paths are Path objects and create directories if needed."""
         if isinstance(v, str):
@@ -85,6 +79,7 @@ class Settings(BaseSettings):
     def get_theme_config(self) -> Dict[str, Any]:
         """Get theme configuration."""
         from ..themes import THEMES
+
         return THEMES.get(self.default_theme, THEMES["default"])
 
 

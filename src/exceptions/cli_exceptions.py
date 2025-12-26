@@ -33,39 +33,44 @@ class FarmerCLIError(Exception):
 
 class ConfigurationError(FarmerCLIError):
     """Raised when there's a configuration-related error."""
+
     pass
 
 
 class DatabaseError(FarmerCLIError):
     """Raised when there's a database-related error."""
+
     pass
 
 
 class NetworkError(FarmerCLIError):
     """Raised when there's a network-related error."""
+
     pass
 
 
 class ValidationError(FarmerCLIError):
     """Raised when input validation fails."""
+
     pass
 
 
 class FileOperationError(FarmerCLIError):
     """Raised when file operations fail."""
+
     pass
 
 
 class AuthenticationError(FarmerCLIError):
     """Raised when authentication fails."""
+
     pass
 
 
 class APIError(FarmerCLIError):
     """Raised when API calls fail."""
 
-    def __init__(self, message: str, status_code: Optional[int] = None,
-                 response_data: Optional[Any] = None) -> None:
+    def __init__(self, message: str, status_code: Optional[int] = None, response_data: Optional[Any] = None) -> None:
         """
         Initialize API error.
 
