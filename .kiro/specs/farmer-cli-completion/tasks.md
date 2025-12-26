@@ -6,27 +6,27 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
 
 ## Tasks
 
-- [ ] 1. Set up testing infrastructure and base utilities
-  - [ ] 1.1 Create tests directory structure with conftest.py and fixtures
+- [x] 1. Set up testing infrastructure and base utilities
+  - [x] 1.1 Create tests directory structure with conftest.py and fixtures
     - Create `tests/`, `tests/unit/`, `tests/property/`, `tests/integration/`
     - Set up pytest configuration in pyproject.toml
     - Create shared fixtures for database, temp files, mock services
     - _Requirements: 9.1, 9.2_
-  - [ ] 1.2 Implement URL validation utilities (utils/url_utils.py)
+  - [x] 1.2 Implement URL validation utilities (utils/url_utils.py)
     - Create `is_valid_url()` function with regex validation
     - Create `is_supported_platform()` to check against supported sites
     - Create `extract_video_id()` for URL parsing
     - _Requirements: 1.2, 1.6_
-  - [ ]* 1.3 Write property tests for URL validation
+  - [x] 1.3 Write property tests for URL validation
     - **Property 12: Invalid URL Error Handling**
     - **Validates: Requirements 1.2**
-  - [ ] 1.4 Implement filename template utility (utils/filename_template.py)
+  - [x] 1.4 Implement filename template utility (utils/filename_template.py)
     - Create `FilenameTemplate` class with variable substitution
     - Implement `render()` method for generating filenames
     - Implement `validate()` method for template validation
     - Sanitize output to remove invalid filesystem characters
     - _Requirements: 6.2_
-  - [ ]* 1.5 Write property tests for filename templating
+  - [x] 1.5 Write property tests for filename templating
     - **Property 14: Filename Template Rendering**
     - **Validates: Requirements 6.2**
 
@@ -40,7 +40,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Define `VideoInfo` dataclass with url, title, uploader, formats
     - Define `DownloadProgress` dataclass for progress tracking
     - _Requirements: 2.2_
-  - [ ]* 3.2 Write property tests for format information completeness
+  - [ ] 3.2 Write property tests for format information completeness
     - **Property 6: Format Information Completeness**
     - **Validates: Requirements 2.2**
   - [ ] 3.3 Implement YtdlpWrapper.extract_info() method
@@ -79,10 +79,10 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Add index on url column for duplicate detection
     - Add index on downloaded_at for sorting
     - _Requirements: 5.1, 5.2_
-  - [ ]* 5.3 Write property tests for history entry completeness
+  - [ ] 5.3 Write property tests for history entry completeness
     - **Property 7: History Entry Completeness**
     - **Validates: Requirements 5.2**
-  - [ ]* 5.4 Write property tests for queue item completeness
+  - [ ] 5.4 Write property tests for queue item completeness
     - **Property 8: Queue Item Completeness**
     - **Validates: Requirements 4.2**
   - [ ] 5.5 Update database initialization to create new tables
@@ -110,7 +110,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Query history by URL
     - Return matching HistoryEntry or None
     - _Requirements: 5.3_
-  - [ ]* 6.5 Write property tests for duplicate detection
+  - [ ] 6.5 Write property tests for duplicate detection
     - **Property 13: Duplicate Detection Accuracy**
     - **Validates: Requirements 5.3**
   - [ ] 6.6 Implement DownloadManager.get_history() method
@@ -123,14 +123,14 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Implement set_max_concurrent() with validation (1-5)
     - Auto-start next queued item on completion
     - _Requirements: 4.5, 4.6_
-  - [ ]* 6.8 Write property tests for concurrent download limit
+  - [ ] 6.8 Write property tests for concurrent download limit
     - **Property 19: Concurrent Download Limit**
     - **Validates: Requirements 4.5**
   - [ ] 6.9 Implement queue persistence and restoration
     - Save queue state to database on changes
     - Restore queue on application startup
     - _Requirements: 4.4_
-  - [ ]* 6.10 Write property tests for queue persistence round-trip
+  - [ ] 6.10 Write property tests for queue persistence round-trip
     - **Property 4: Queue Persistence Round-Trip**
     - **Validates: Requirements 4.4**
 
@@ -158,7 +158,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Track successes and failures separately
     - Generate summary report
     - _Requirements: 3.3, 3.4, 3.6_
-  - [ ]* 9.3 Write property tests for batch failure isolation
+  - [ ] 9.3 Write property tests for batch failure isolation
     - **Property 20: Batch Failure Isolation**
     - **Validates: Requirements 3.4**
 
@@ -211,7 +211,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Validate path exists and is writable
     - Auto-create subdirectories as needed
     - _Requirements: 6.5, 6.6_
-  - [ ]* 12.3 Write property tests for directory validation
+  - [ ] 12.3 Write property tests for directory validation
     - **Property 15: Directory Validation**
     - **Validates: Requirements 6.5**
   - [ ] 12.4 Implement filename conflict resolution
@@ -239,10 +239,10 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Add search_users() method with name matching
     - Update UI with search input
     - _Requirements: 7.5_
-  - [ ]* 14.5 Write property tests for user name validation
+  - [ ] 14.5 Write property tests for user name validation
     - **Property 16: User Name Validation**
     - **Validates: Requirements 7.1**
-  - [ ]* 14.6 Write property tests for user serialization round-trip
+  - [ ] 14.6 Write property tests for user serialization round-trip
     - **Property 1: User Serialization Round-Trip**
     - **Validates: Requirements 7.6**
 
@@ -251,14 +251,14 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Implement type checking for preference values
     - Implement range validation where applicable
     - _Requirements: 8.4_
-  - [ ]* 15.2 Write property tests for preference validation
+  - [ ] 15.2 Write property tests for preference validation
     - **Property 17: Preference Value Validation**
     - **Validates: Requirements 8.4**
   - [ ] 15.3 Implement corruption recovery
     - Detect corrupted preferences file
     - Reset to defaults and notify user
     - _Requirements: 8.5_
-  - [ ]* 15.4 Write property tests for preferences round-trip
+  - [ ] 15.4 Write property tests for preferences round-trip
     - **Property 2: Preferences Round-Trip**
     - **Validates: Requirements 8.6**
 
@@ -278,7 +278,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Add import_data() method for JSON format
     - Validate imported data structure
     - _Requirements: 12.6_
-  - [ ]* 17.4 Write property tests for export/import round-trip
+  - [ ] 17.4 Write property tests for export/import round-trip
     - **Property 3: Export/Import Round-Trip**
     - **Validates: Requirements 12.6**
   - [ ] 17.5 Add export completion reporting
@@ -299,7 +299,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Route to CLI or interactive mode based on arguments
     - Handle argument parsing errors gracefully
     - _Requirements: 13.6_
-  - [ ]* 18.4 Write property tests for CLI argument handling
+  - [ ] 18.4 Write property tests for CLI argument handling
     - **Property 18: CLI Invalid Argument Handling**
     - **Validates: Requirements 13.6**
 
@@ -316,10 +316,10 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Create error message templates for common errors
     - Add troubleshooting suggestions for network errors
     - _Requirements: 10.1, 10.4_
-  - [ ]* 20.3 Write property tests for error message user-friendliness
+  - [ ] 20.3 Write property tests for error message user-friendliness
     - **Property 9: Error Message User-Friendliness**
     - **Validates: Requirements 10.1**
-  - [ ]* 20.4 Write property tests for error logging completeness
+  - [ ] 20.4 Write property tests for error logging completeness
     - **Property 10: Error Logging Completeness**
     - **Validates: Requirements 10.2**
   - [ ] 20.5 Add log viewer to UI
@@ -336,10 +336,10 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Check table existence and schema
     - Validate foreign key constraints
     - _Requirements: 11.4_
-  - [ ]* 21.3 Write property tests for database rollback
+  - [ ] 21.3 Write property tests for database rollback
     - **Property 11: Database Rollback on Failure**
     - **Validates: Requirements 11.2**
-  - [ ]* 21.4 Write property tests for database consistency
+  - [ ] 21.4 Write property tests for database consistency
     - **Property 5: Database Consistency Invariant**
     - **Validates: Requirements 11.6**
 
@@ -383,7 +383,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
 
 ## Notes
 
-- Tasks marked with `*` are optional property-based tests that can be skipped for faster MVP
+- All tasks including property-based tests are required for comprehensive coverage
 - Each task references specific requirements for traceability
 - Checkpoints ensure incremental validation
 - Property tests validate universal correctness properties
