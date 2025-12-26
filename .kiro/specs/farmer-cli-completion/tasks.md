@@ -1,0 +1,391 @@
+# Implementation Plan: Farmer CLI Completion
+
+## Overview
+
+This implementation plan breaks down the Farmer CLI completion into discrete, incremental tasks. Each task builds on previous work, ensuring no orphaned code. The plan prioritizes core video downloading functionality first, then enhances existing features, and finally establishes comprehensive test coverage.
+
+## Tasks
+
+- [ ] 1. Set up testing infrastructure and base utilities
+  - [ ] 1.1 Create tests directory structure with conftest.py and fixtures
+    - Create `tests/`, `tests/unit/`, `tests/property/`, `tests/integration/`
+    - Set up pytest configuration in pyproject.toml
+    - Create shared fixtures for database, temp files, mock services
+    - _Requirements: 9.1, 9.2_
+  - [ ] 1.2 Implement URL validation utilities (utils/url_utils.py)
+    - Create `is_valid_url()` function with regex validation
+    - Create `is_supported_platform()` to check against supported sites
+    - Create `extract_video_id()` for URL parsing
+    - _Requirements: 1.2, 1.6_
+  - [ ]* 1.3 Write property tests for URL validation
+    - **Property 12: Invalid URL Error Handling**
+    - **Validates: Requirements 1.2**
+  - [ ] 1.4 Implement filename template utility (utils/filename_template.py)
+    - Create `FilenameTemplate` class with variable substitution
+    - Implement `render()` method for generating filenames
+    - Implement `validate()` method for template validation
+    - Sanitize output to remove invalid filesystem characters
+    - _Requirements: 6.2_
+  - [ ]* 1.5 Write property tests for filename templating
+    - **Property 14: Filename Template Rendering**
+    - **Validates: Requirements 6.2**
+
+- [ ] 2. Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 3. Implement yt-dlp wrapper service
+  - [ ] 3.1 Create data classes for video information (services/ytdlp_wrapper.py)
+    - Define `DownloadStatus` enum
+    - Define `VideoFormat` dataclass with format_id, resolution, codec, filesize
+    - Define `VideoInfo` dataclass with url, title, uploader, formats
+    - Define `DownloadProgress` dataclass for progress tracking
+    - _Requirements: 2.2_
+  - [ ]* 3.2 Write property tests for format information completeness
+    - **Property 6: Format Information Completeness**
+    - **Validates: Requirements 2.2**
+  - [ ] 3.3 Implement YtdlpWrapper.extract_info() method
+    - Wrap yt-dlp's extract_info with proper error handling
+    - Convert yt-dlp dict to VideoInfo dataclass
+    - Handle network errors and invalid URLs gracefully
+    - _Requirements: 1.1, 1.2_
+  - [ ] 3.4 Implement YtdlpWrapper.get_formats() method
+    - Extract available formats from video info
+    - Filter and sort formats by quality
+    - Support audio-only format filtering
+    - _Requirements: 2.1, 2.4_
+  - [ ] 3.5 Implement YtdlpWrapper.download() method
+    - Configure yt-dlp options for download
+    - Implement progress callback integration
+    - Handle download interruption and resumption
+    - Verify file integrity after download
+    - _Requirements: 1.1, 1.3, 1.4, 1.5_
+  - [ ] 3.6 Implement YtdlpWrapper.extract_playlist() method
+    - Extract all video entries from playlist URL
+    - Handle pagination for large playlists
+    - Return list of VideoInfo objects
+    - _Requirements: 3.1_
+
+- [ ] 4. Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 5. Implement database models for downloads
+  - [ ] 5.1 Create QueueItem model (models/download.py)
+    - Define SQLAlchemy model with all required fields
+    - Add indexes for status and position columns
+    - Implement validation for status transitions
+    - _Requirements: 4.1, 4.2_
+  - [ ] 5.2 Create DownloadHistory model (models/history.py)
+    - Define SQLAlchemy model with all required fields
+    - Add index on url column for duplicate detection
+    - Add index on downloaded_at for sorting
+    - _Requirements: 5.1, 5.2_
+  - [ ]* 5.3 Write property tests for history entry completeness
+    - **Property 7: History Entry Completeness**
+    - **Validates: Requirements 5.2**
+  - [ ]* 5.4 Write property tests for queue item completeness
+    - **Property 8: Queue Item Completeness**
+    - **Validates: Requirements 4.2**
+  - [ ] 5.5 Update database initialization to create new tables
+    - Add migration for new tables
+    - Update DatabaseManager.initialize() method
+    - _Requirements: 11.3_
+
+- [ ] 6. Implement download manager service
+  - [ ] 6.1 Implement DownloadManager.add_to_queue() method
+    - Create QueueItem with generated UUID
+    - Persist to database
+    - Return created item
+    - _Requirements: 4.1_
+  - [ ] 6.2 Implement DownloadManager.get_queue() method
+    - Query all queue items ordered by position
+    - Return list of QueueItem objects
+    - _Requirements: 4.2_
+  - [ ] 6.3 Implement queue manipulation methods (pause, resume, cancel, reorder)
+    - Implement pause_download() with status update
+    - Implement resume_download() with status update
+    - Implement cancel_download() with cleanup
+    - Implement reorder_queue() with position updates
+    - _Requirements: 4.3_
+  - [ ] 6.4 Implement DownloadManager.check_duplicate() method
+    - Query history by URL
+    - Return matching HistoryEntry or None
+    - _Requirements: 5.3_
+  - [ ]* 6.5 Write property tests for duplicate detection
+    - **Property 13: Duplicate Detection Accuracy**
+    - **Validates: Requirements 5.3**
+  - [ ] 6.6 Implement DownloadManager.get_history() method
+    - Query history with optional search filter
+    - Support pagination with limit/offset
+    - Check file existence for each entry
+    - _Requirements: 5.2, 5.6_
+  - [ ] 6.7 Implement concurrent download management
+    - Track active downloads count
+    - Implement set_max_concurrent() with validation (1-5)
+    - Auto-start next queued item on completion
+    - _Requirements: 4.5, 4.6_
+  - [ ]* 6.8 Write property tests for concurrent download limit
+    - **Property 19: Concurrent Download Limit**
+    - **Validates: Requirements 4.5**
+  - [ ] 6.9 Implement queue persistence and restoration
+    - Save queue state to database on changes
+    - Restore queue on application startup
+    - _Requirements: 4.4_
+  - [ ]* 6.10 Write property tests for queue persistence round-trip
+    - **Property 4: Queue Persistence Round-Trip**
+    - **Validates: Requirements 4.4**
+
+- [ ] 7. Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 8. Implement format selector service
+  - [ ] 8.1 Create FormatSelector class (services/format_selector.py)
+    - Implement get_available_formats() using YtdlpWrapper
+    - Implement get_best_format() with quality ranking
+    - Implement get_audio_formats() filter
+    - _Requirements: 2.1, 2.4, 2.5_
+  - [ ] 8.2 Implement format preference persistence
+    - Implement set_default_format() saving to preferences
+    - Implement get_default_format() loading from preferences
+    - _Requirements: 2.6_
+
+- [ ] 9. Implement playlist handler service
+  - [ ] 9.1 Create PlaylistHandler class (services/playlist_handler.py)
+    - Implement enumerate_playlist() using YtdlpWrapper
+    - Implement get_range() for selective downloading
+    - _Requirements: 3.1, 3.5_
+  - [ ] 9.2 Implement batch download functionality
+    - Implement download_batch() with concurrent downloads
+    - Track successes and failures separately
+    - Generate summary report
+    - _Requirements: 3.3, 3.4, 3.6_
+  - [ ]* 9.3 Write property tests for batch failure isolation
+    - **Property 20: Batch Failure Isolation**
+    - **Validates: Requirements 3.4**
+
+- [ ] 10. Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 11. Implement video downloader feature
+  - [ ] 11.1 Create VideoDownloaderFeature class (features/video_downloader.py)
+    - Inherit from BaseFeature
+    - Wire up YtdlpWrapper, DownloadManager, FormatSelector
+    - Implement execute() method with submenu
+    - _Requirements: 1.1_
+  - [ ] 11.2 Implement single video download workflow
+    - Prompt for URL input with validation
+    - Check for duplicates and warn user
+    - Display format options and get selection
+    - Start download with progress display
+    - Record to history on completion
+    - _Requirements: 1.1, 2.1, 2.3, 5.1, 5.3_
+  - [ ] 11.3 Implement playlist download workflow
+    - Detect playlist URLs automatically
+    - Display video list with selection options
+    - Support range selection
+    - Queue selected videos for download
+    - _Requirements: 3.1, 3.2, 3.5_
+  - [ ] 11.4 Implement download queue management UI
+    - Display queue with status and progress
+    - Provide pause/resume/cancel options
+    - Allow reordering
+    - _Requirements: 4.2, 4.3_
+  - [ ] 11.5 Implement download history UI
+    - Display history with search
+    - Show file existence status
+    - Allow clearing history
+    - _Requirements: 5.2, 5.4, 5.6_
+  - [ ] 11.6 Create download progress UI component (ui/download_ui.py)
+    - Create progress bar with speed and ETA
+    - Support multiple concurrent progress displays
+    - Handle download completion/failure states
+    - _Requirements: 1.3_
+
+- [ ] 12. Implement output configuration
+  - [ ] 12.1 Add download settings to preferences
+    - Default download directory
+    - Filename template
+    - Conflict resolution preference
+    - Subdirectory organization preference
+    - _Requirements: 6.1, 6.2, 6.4_
+  - [ ] 12.2 Implement directory validation
+    - Validate path exists and is writable
+    - Auto-create subdirectories as needed
+    - _Requirements: 6.5, 6.6_
+  - [ ]* 12.3 Write property tests for directory validation
+    - **Property 15: Directory Validation**
+    - **Validates: Requirements 6.5**
+  - [ ] 12.4 Implement filename conflict resolution
+    - Detect existing files
+    - Offer rename/overwrite/skip options
+    - _Requirements: 6.3_
+
+- [ ] 13. Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 14. Enhance user management feature
+  - [ ] 14.1 Implement user update functionality
+    - Add update_user() method to UserManagementFeature
+    - Create UI for editing user name and preferences
+    - _Requirements: 7.2_
+  - [ ] 14.2 Implement user deletion with confirmation
+    - Add delete_user() method with confirmation prompt
+    - Handle cascade deletion of related data
+    - _Requirements: 7.3_
+  - [ ] 14.3 Implement user pagination
+    - Add pagination to list_users() method
+    - Update UI to show page navigation
+    - _Requirements: 7.4_
+  - [ ] 14.4 Implement user search
+    - Add search_users() method with name matching
+    - Update UI with search input
+    - _Requirements: 7.5_
+  - [ ]* 14.5 Write property tests for user name validation
+    - **Property 16: User Name Validation**
+    - **Validates: Requirements 7.1**
+  - [ ]* 14.6 Write property tests for user serialization round-trip
+    - **Property 1: User Serialization Round-Trip**
+    - **Validates: Requirements 7.6**
+
+- [ ] 15. Enhance preferences service
+  - [ ] 15.1 Add preference validation
+    - Implement type checking for preference values
+    - Implement range validation where applicable
+    - _Requirements: 8.4_
+  - [ ]* 15.2 Write property tests for preference validation
+    - **Property 17: Preference Value Validation**
+    - **Validates: Requirements 8.4**
+  - [ ] 15.3 Implement corruption recovery
+    - Detect corrupted preferences file
+    - Reset to defaults and notify user
+    - _Requirements: 8.5_
+  - [ ]* 15.4 Write property tests for preferences round-trip
+    - **Property 2: Preferences Round-Trip**
+    - **Validates: Requirements 8.6**
+
+- [ ] 16. Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 17. Enhance export service
+  - [ ] 17.1 Add JSON export format
+    - Implement export_to_json() method
+    - Support field selection
+    - _Requirements: 12.1, 12.2_
+  - [ ] 17.2 Implement download history export
+    - Add export_history() method
+    - Support all three formats (CSV, JSON, PDF)
+    - _Requirements: 12.3_
+  - [ ] 17.3 Implement data import functionality
+    - Add import_data() method for JSON format
+    - Validate imported data structure
+    - _Requirements: 12.6_
+  - [ ]* 17.4 Write property tests for export/import round-trip
+    - **Property 3: Export/Import Round-Trip**
+    - **Validates: Requirements 12.6**
+  - [ ] 17.5 Add export completion reporting
+    - Report file location and size after export
+    - _Requirements: 12.4_
+
+- [ ] 18. Implement CLI interface
+  - [ ] 18.1 Create Click-based CLI (cli.py)
+    - Set up Click group with version and help
+    - Implement --quiet flag for minimal output
+    - _Requirements: 13.4, 13.5_
+  - [ ] 18.2 Implement download command
+    - Add `download` command with URL argument
+    - Add --format option for format selection
+    - Add --output option for output path
+    - _Requirements: 13.1, 13.2, 13.3_
+  - [ ] 18.3 Update __main__.py for CLI integration
+    - Route to CLI or interactive mode based on arguments
+    - Handle argument parsing errors gracefully
+    - _Requirements: 13.6_
+  - [ ]* 18.4 Write property tests for CLI argument handling
+    - **Property 18: CLI Invalid Argument Handling**
+    - **Validates: Requirements 13.6**
+
+- [ ] 19. Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 20. Implement error handling and logging
+  - [ ] 20.1 Create logging configuration (core/logging_config.py)
+    - Configure console handler for user-friendly messages
+    - Configure file handler with full stack traces
+    - Support configurable log levels
+    - _Requirements: 10.2, 10.3_
+  - [ ] 20.2 Implement user-friendly error messages
+    - Create error message templates for common errors
+    - Add troubleshooting suggestions for network errors
+    - _Requirements: 10.1, 10.4_
+  - [ ]* 20.3 Write property tests for error message user-friendliness
+    - **Property 9: Error Message User-Friendliness**
+    - **Validates: Requirements 10.1**
+  - [ ]* 20.4 Write property tests for error logging completeness
+    - **Property 10: Error Logging Completeness**
+    - **Validates: Requirements 10.2**
+  - [ ] 20.5 Add log viewer to UI
+    - Create feature to view recent log entries
+    - Support filtering by log level
+    - _Requirements: 10.6_
+
+- [ ] 21. Enhance database reliability
+  - [ ] 21.1 Implement database backup and restore
+    - Add backup_database() method
+    - Add restore_database() method
+    - _Requirements: 11.5_
+  - [ ] 21.2 Add startup integrity validation
+    - Check table existence and schema
+    - Validate foreign key constraints
+    - _Requirements: 11.4_
+  - [ ]* 21.3 Write property tests for database rollback
+    - **Property 11: Database Rollback on Failure**
+    - **Validates: Requirements 11.2**
+  - [ ]* 21.4 Write property tests for database consistency
+    - **Property 5: Database Consistency Invariant**
+    - **Validates: Requirements 11.6**
+
+- [ ] 22. Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 23. Wire up features and update main menu
+  - [ ] 23.1 Register VideoDownloaderFeature in app.py
+    - Add to features dictionary
+    - Update menu options and actions
+    - _Requirements: 1.1_
+  - [ ] 23.2 Update constants.py with new menu options
+    - Add video download menu options
+    - Add download settings options
+    - _Requirements: 1.1_
+  - [ ] 23.3 Update README.md with new features
+    - Document video downloading functionality
+    - Document CLI arguments
+    - Update feature list
+    - _Requirements: N/A (documentation)_
+
+- [ ] 24. Integration testing
+  - [ ] 24.1 Write integration tests for download workflow
+    - Test complete download flow from URL to file
+    - Test queue management workflow
+    - Test history tracking
+    - _Requirements: 9.4_
+  - [ ] 24.2 Write integration tests for user workflow
+    - Test complete CRUD operations
+    - Test export/import cycle
+    - _Requirements: 9.4_
+  - [ ] 24.3 Write integration tests for CLI interface
+    - Test all CLI commands and options
+    - Test error handling for invalid inputs
+    - _Requirements: 9.4_
+
+- [ ] 25. Final checkpoint - Ensure all tests pass and coverage meets target
+  - Run full test suite
+  - Verify 80% code coverage
+  - Ensure all tests pass, ask the user if questions arise.
+
+## Notes
+
+- Tasks marked with `*` are optional property-based tests that can be skipped for faster MVP
+- Each task references specific requirements for traceability
+- Checkpoints ensure incremental validation
+- Property tests validate universal correctness properties
+- Unit tests validate specific examples and edge cases
+- The implementation order ensures no orphaned code - each feature is wired up before moving on
