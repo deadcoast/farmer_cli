@@ -1,23 +1,29 @@
-[build-backend]
-rustc = "rustc"
-rustc-version = "1.70.0"
-
-[build-backend.databases.sqlite.features]
-"bundled" = ["bundled"]
-"no-bundled" = ["no-bundled"]
-
-[build-backend.databases.mysql.features]
-"bundled" = ["bundled"]
-"no-bundled" = ["no-bundled"]
-
-[build-backend.databases.postgres.features]
-"bundled" = ["bundled"]
-"no-bundled" = ["no-bundled"]
-
-[build-backend.databases.mssql.features]
-"bundled" = ["bundled"]
-"no-bundled" = ["no-bundled"]
-
-[build-backend.databases.oracle.features]
-"bundled" = ["bundled"]
-"no-bundled" = ["no-bundled"]
+# uv configuration for this repository.
+# Build metadata lives in pyproject.toml; uv.toml is intentionally minimal.
+#
+# Legacy config preserved below for reference only. Uncomment and move to the
+# appropriate tool if needed.
+#
+# [build-backend]
+# rustc = "rustc"
+# rustc-version = "1.70.0"
+#
+# [build-backend.databases.sqlite.features]
+# "bundled" = ["bundled"]
+# "no-bundled" = ["no-bundled"]
+#
+# [build-backend.databases.mysql.features]
+# "bundled" = ["bundled"]
+# "no-bundled" = ["no-bundled"]
+#
+# [build-backend.databases.postgres.features]
+# "bundled" = ["bundled"]
+# "no-bundled" = ["no-bundled"]
+#
+# [build-backend.databases.mssql.features]
+# "bundled" = ["bundled"]
+# "no-bundled" = ["no-bundled"]
+#
+# [build-backend.databases.oracle.features]
+# "bundled" = ["bundled"]
+# "no-bundled" = ["no-bundled"]

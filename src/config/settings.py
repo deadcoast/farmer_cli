@@ -32,7 +32,7 @@ class Settings(BaseSettings):
 
     # Application info
     app_name: str = Field(default="Farmer CLI", description="Application name")
-    app_version: str = Field(default="0.1.0", description="Application version")
+    app_version: str = Field(default="0.2.0", description="Application version")
 
     # API Keys
     openweather_api_key: Optional[str] = Field(
@@ -65,6 +65,8 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             v = Path(v)
         if isinstance(v, Path):
+            if not v.is_absolute():
+                v = PROJECT_ROOT / v
             if v.suffix:  # It's a file
                 v.parent.mkdir(parents=True, exist_ok=True)
             else:  # It's a directory

@@ -15,9 +15,14 @@
             "name": "PyDebug: Main File",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/main.py",
+            "module": "farmer_cli",
+            "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "args": [],
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
             "justMyCode": true
         },
         {
@@ -32,7 +37,7 @@
             ],
             "envFile": "${workspaceFolder}/.env",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}"
+                "PYTHONPATH": "${workspaceFolder}/src"
             },
             "subProcess": true,
             "justMyCode": true
@@ -49,7 +54,7 @@
             ],
             "envFile": "${workspaceFolder}/.env",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}"
+                "PYTHONPATH": "${workspaceFolder}/src"
             },
             "justMyCode": true
         },
@@ -66,7 +71,7 @@
             ],
             "envFile": "${workspaceFolder}/.env",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}"
+                "PYTHONPATH": "${workspaceFolder}/src"
             },
             "justMyCode": true
         },
@@ -74,16 +79,24 @@
             "name": "PyDebug: Main File (preflight lint/format)",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/main.py",
+            "module": "farmer_cli",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "envFile": "${workspaceFolder}/.env",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}"
+                "PYTHONPATH": "${workspaceFolder}/src"
             },
             "subProcess": true,
             "justMyCode": true,
             "preLaunchTask": "Ruff: Format + Lint + Fix"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "progArgs",
+            "type": "promptString",
+            "description": "Arguments for the current file",
+            "default": ""
         }
     ]
 }

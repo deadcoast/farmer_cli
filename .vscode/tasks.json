@@ -11,18 +11,24 @@
         {
             "label": "Python: Main File",
             "type": "shell",
-            "command": "${command:python.interpreterPath} ${workspaceFolder}/main.py",
+            "command": "${command:python.interpreterPath} -m farmer_cli",
             "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}/src"
+                }
+            },
             "group": "build"
         },
         {
             "label": "Pytest: Run All",
             "type": "shell",
-            "command": "${input:pyExec} -m pytest -q",
+            "command": "${command:python.interpreterPath} -m pytest -q",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder}"
+                    "PYTHONPATH": "${workspaceFolder}/src"
                 }
             },
             "group": "test",
@@ -31,11 +37,11 @@
         {
             "label": "Pytest: Run Current File",
             "type": "shell",
-            "command": "${input:pyExec} -m pytest -q ${relativeFile}",
+            "command": "${command:python.interpreterPath} -m pytest -q ${relativeFile}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder}"
+                    "PYTHONPATH": "${workspaceFolder}/src"
                 }
             },
             "group": "test",
@@ -44,11 +50,11 @@
         {
             "label": "Pytest: Run Mark",
             "type": "shell",
-            "command": "${input:pyExec} -m pytest -q -m ${input:pytestMark}",
+            "command": "${command:python.interpreterPath} -m pytest -q -m ${input:pytestMark}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder}"
+                    "PYTHONPATH": "${workspaceFolder}/src"
                 }
             },
             "group": "test",
@@ -126,6 +132,14 @@
             "windows": {
                 "command": "py -3 -m venv .venv && .\\.venv\\Scripts\\python.exe -m pip install -U pip"
             }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "pytestMark",
+            "type": "promptString",
+            "description": "Pytest -m marker expression (e.g. slow and not network)",
+            "default": ""
         }
     ]
 }
