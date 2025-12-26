@@ -1,29 +1,139 @@
-# uv configuration for this repository.
-# Build metadata lives in pyproject.toml; uv.toml is intentionally minimal.
+# uv.toml - Project-wide configuration for uv
+# This file configures uv's behavior for Python dependency management and tooling
+
+[pip]
+# Use faster resolution with pre-releases excluded by default
+prerelease = "if-necessary"
+
+# Enable resolution with platform-specific wheels
+python-platform = "linux"  # Options: linux, macos, windows
+python-version = "3.11"    # Target Python version for resolution
+
+# Universal resolution - ensures cross-platform compatibility
+universal = false
+
+# Index configuration for package sources
+index-url = "https://pypi.org/simple"
+# extra-index-url = ["https://download.pytorch.org/whl/cpu"]  # Uncomment for PyTorch, etc.
+
+# Use the system's certificate store for HTTPS
+native-tls = true
+
+# Strict mode - fail on missing wheels
+no-binary = []  # List packages to install from source: ["package-name"]
+
+# Build isolation for packages without wheels
+no-build-isolation = []  # List packages to skip isolation: ["package-name"]
+
+[cache]
+# Cache directory (default: platform-specific)
+# dir = "./.uv-cache"  # Uncomment to use project-local cache
+
+# Cache retention
+ttl = "7d"  # Keep cache entries for 7 days
+
+[resolution]
+# Dependency resolution strategy
+# "highest" - always use the highest compatible version
+# "lowest-direct" - use lowest version for direct dependencies
+strategy = "highest"
+
+# Exclude newer package versions
+# exclude-newer = "2024-01-01T00:00:00Z"
+
+[installer]
+# Installation behavior
+compile-bytecode = true  # Pre-compile .pyc files for faster imports
+no-cache = false         # Set to true to disable cache during install
+
+[tool]
+# UV tool management
+upgrade = false  # Auto-upgrade tools on install
+
+[workspace]
+# Workspace configuration for monorepos
+members = []  # List of workspace members: ["packages/*"]
+exclude = [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    ".nuxt",
+    "out",
+    ".venv",
+    "venv",
+    "__pycache__",
+]
+
+[python]
+# Python version management
+# Downloads and manages Python versions automatically
+downloads = "automatic"  # Options: automatic, manual, never
+
+# Preferred Python version for this project
+# This works with `uv python install` and `uv run`
+version = "3.11"  # Can also be a range: ">=3.10,<3.13"
+
+[scripts]
+# Define custom scripts that run with `uv run <script-name>`
+# These are shortcuts for common development tasks
+
+# Python development
+dev = "uvicorn main:app --reload"
+test = "pytest tests/ -v"
+lint = "ruff check ."
+format = "ruff format ."
+typecheck = "mypy src/"
+
+# Combined quality checks
+check = ["lint", "typecheck", "test"]
+
+# Database migrations (example)
+migrate = "alembic upgrade head"
+migrate-down = "alembic downgrade -1"
+
+# Build and deploy
+build = "python -m build"
+clean = "rm -rf dist/ build/ *.egg-info __pycache__ .pytest_cache .ruff_cache"
+
+[env]
+# Environment variables for all uv commands
+# Useful for consistent development environments
+PYTHONPATH = "src"
+PYTHONUNBUFFERED = "1"
+# NODE_ENV = "development"  # Can set Node.js env vars too
+
+[override]
+# Pin specific package versions to override resolver
+# Useful for security patches or known-good versions
+# numpy = "1.24.3"
+# requests = "2.31.0"
+
+# =============================================================================
+# INTEGRATION WITH JAVASCRIPT/TYPESCRIPT ECOSYSTEM
+# =============================================================================
+# Note: uv is Python-focused. For JS/TS/React, continue using:
 #
-# Legacy config preserved below for reference only. Uncomment and move to the
-# appropriate tool if needed.
+# - package.json with npm/yarn/pnpm/bun for dependency management
+# - tsconfig.json for TypeScript configuration
+# - vite.config.ts / next.config.js for build tooling
+# - .eslintrc / .prettierrc for JS/TS linting
 #
-# [build-backend]
-# rustc = "rustc"
-# rustc-version = "1.70.0"
+# However, you can use uv to run Python backend services that support your
+# JS/TS frontend, or use Python tools in your development workflow.
 #
-# [build-backend.databases.sqlite.features]
-# "bundled" = ["bundled"]
-# "no-bundled" = ["no-bundled"]
+# Example monorepo structure:
 #
-# [build-backend.databases.mysql.features]
-# "bundled" = ["bundled"]
-# "no-bundled" = ["no-bundled"]
+# project/
+# ├── uv.toml              # This file - Python config
+# ├── pyproject.toml       # Python dependencies
+# ├── package.json         # JS/TS dependencies
+# ├── backend/             # Python FastAPI/Django
+# │   └── pyproject.toml
+# └── frontend/            # React/Next.js
+#     └── package.json
 #
-# [build-backend.databases.postgres.features]
-# "bundled" = ["bundled"]
-# "no-bundled" = ["no-bundled"]
-#
-# [build-backend.databases.mssql.features]
-# "bundled" = ["bundled"]
-# "no-bundled" = ["no-bundled"]
-#
-# [build-backend.databases.oracle.features]
-# "bundled" = ["bundled"]
-# "no-bundled" = ["no-bundled"]
+# Use scripts above to coordinate:
+# - `uv run dev` - Start Python backend
+# - `npm run dev` - Start frontend (in package.json)
+# =============================================================================
