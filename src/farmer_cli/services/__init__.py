@@ -6,6 +6,8 @@ across different features of the application.
 """
 
 from .async_tasks import AsyncTaskManager
+from .download_manager import DownloadManager
+from .download_manager import HistoryEntry
 from .feedback import FeedbackService
 from .feedback import submit_feedback
 from .preferences import PreferencesService
@@ -18,9 +20,11 @@ from .ytdlp_wrapper import YtdlpWrapper
 
 __all__ = [
     "AsyncTaskManager",
+    "DownloadManager",
     "DownloadProgress",
     "DownloadStatus",
     "FeedbackService",
+    "HistoryEntry",
     "PreferencesService",
     "VideoFormat",
     "VideoInfo",

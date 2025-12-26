@@ -90,47 +90,47 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Update DatabaseManager.initialize() method
     - _Requirements: 11.3_
 
-- [ ] 6. Implement download manager service
-  - [ ] 6.1 Implement DownloadManager.add_to_queue() method
+- [-] 6. Implement download manager service
+  - [x] 6.1 Implement DownloadManager.add_to_queue() method
     - Create QueueItem with generated UUID
     - Persist to database
     - Return created item
     - _Requirements: 4.1_
-  - [ ] 6.2 Implement DownloadManager.get_queue() method
+  - [x] 6.2 Implement DownloadManager.get_queue() method
     - Query all queue items ordered by position
     - Return list of QueueItem objects
     - _Requirements: 4.2_
-  - [ ] 6.3 Implement queue manipulation methods (pause, resume, cancel, reorder)
+  - [x] 6.3 Implement queue manipulation methods (pause, resume, cancel, reorder)
     - Implement pause_download() with status update
     - Implement resume_download() with status update
     - Implement cancel_download() with cleanup
     - Implement reorder_queue() with position updates
     - _Requirements: 4.3_
-  - [ ] 6.4 Implement DownloadManager.check_duplicate() method
+  - [x] 6.4 Implement DownloadManager.check_duplicate() method
     - Query history by URL
     - Return matching HistoryEntry or None
     - _Requirements: 5.3_
-  - [ ] 6.5 Write property tests for duplicate detection
+  - [x] 6.5 Write property tests for duplicate detection
     - **Property 13: Duplicate Detection Accuracy**
     - **Validates: Requirements 5.3**
-  - [ ] 6.6 Implement DownloadManager.get_history() method
+  - [x] 6.6 Implement DownloadManager.get_history() method
     - Query history with optional search filter
     - Support pagination with limit/offset
     - Check file existence for each entry
     - _Requirements: 5.2, 5.6_
-  - [ ] 6.7 Implement concurrent download management
+  - [x] 6.7 Implement concurrent download management
     - Track active downloads count
     - Implement set_max_concurrent() with validation (1-5)
     - Auto-start next queued item on completion
     - _Requirements: 4.5, 4.6_
-  - [ ] 6.8 Write property tests for concurrent download limit
+  - [x] 6.8 Write property tests for concurrent download limit
     - **Property 19: Concurrent Download Limit**
     - **Validates: Requirements 4.5**
-  - [ ] 6.9 Implement queue persistence and restoration
+  - [x] 6.9 Implement queue persistence and restoration
     - Save queue state to database on changes
     - Restore queue on application startup
     - _Requirements: 4.4_
-  - [ ] 6.10 Write property tests for queue persistence round-trip
+  - [x] 6.10 Write property tests for queue persistence round-trip
     - **Property 4: Queue Persistence Round-Trip**
     - **Validates: Requirements 4.4**
 
