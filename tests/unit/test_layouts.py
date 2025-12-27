@@ -1,135 +1,115 @@
 """Unit tests for layouts.py module."""
 
 import pytest
-from unittest.mock import patch, MagicMock
+from rich.layout import Layout
 
 
-class TestCreateTwoColumnLayout:
-    """Tests for create_two_column_layout function."""
+class TestCreateMainLayout:
+    """Tests for create_main_layout function."""
 
-    def test_create_two_column_layout(self):
-        """Test creating two column layout."""
-        from src.farmer_cli.ui.layouts import create_two_column_layout
+    def test_create_main_layout(self):
+        """Test creating main layout."""
+        from src.farmer_cli.ui.layouts import create_main_layout
 
-        left_content = "Left content"
-        right_content = "Right content"
-
-        result = create_two_column_layout(left_content, right_content)
+        result = create_main_layout()
 
         assert result is not None
+        assert isinstance(result, Layout)
 
-    def test_create_two_column_layout_with_titles(self):
-        """Test creating two column layout with titles."""
-        from src.farmer_cli.ui.layouts import create_two_column_layout
+    def test_create_main_layout_has_sections(self):
+        """Test main layout has header, body, footer sections."""
+        from src.farmer_cli.ui.layouts import create_main_layout
 
-        result = create_two_column_layout(
-            "Left",
-            "Right",
-            left_title="Left Title",
-            right_title="Right Title"
-        )
+        result = create_main_layout()
 
-        assert result is not None
+        # Layout should have named sections
+        assert "header" in [child.name for child in result.children]
+        assert "body" in [child.name for child in result.children]
+        assert "footer" in [child.name for child in result.children]
 
 
-class TestCreateGridLayout:
-    """Tests for create_grid_layout function."""
+class TestCreateSplitLayout:
+    """Tests for create_split_layout function."""
 
-    def test_create_grid_layout(self):
-        """Test creating grid layout."""
-        from src.farmer_cli.ui.layouts import create_grid_layout
+    def test_create_split_layout(self):
+        """Test creating split layout."""
+        from src.farmer_cli.ui.layouts import create_split_layout
 
-        items = ["Item 1", "Item 2", "Item 3", "Item 4"]
-
-        result = create_grid_layout(items, columns=2)
+        result = create_split_layout("Left content", "Right content")
 
         assert result is not None
+        assert isinstance(result, Layout)
 
-    def test_create_grid_layout_single_column(self):
-        """Test creating grid layout with single column."""
-        from src.farmer_cli.ui.layouts import create_grid_layout
+    def test_create_split_layout_with_ratio(self):
+        """Test creating split layout with custom ratio."""
+        from src.farmer_cli.ui.layouts import create_split_layout
 
-        items = ["Item 1", "Item 2"]
-
-        result = create_grid_layout(items, columns=1)
+        result = create_split_layout("Left", "Right", split_ratio=0.3)
 
         assert result is not None
 
 
-class TestCreateHeaderFooterLayout:
-    """Tests for create_header_footer_layout function."""
+class TestCreateDashboardLayout:
+    """Tests for create_dashboard_layout function."""
 
-    def test_create_header_footer_layout(self):
-        """Test creating header footer layout."""
-        from src.farmer_cli.ui.layouts import create_header_footer_layout
+    def test_create_dashboard_layout(self):
+        """Test creating dashboard layout."""
+        from src.farmer_cli.ui.layouts import create_dashboard_layout
 
-        result = create_header_footer_layout(
-            header="Header",
-            content="Content",
-            footer="Footer"
-        )
+        result = create_dashboard_layout()
 
         assert result is not None
-
-    def test_create_header_footer_layout_no_footer(self):
-        """Test creating header footer layout without footer."""
-        from src.farmer_cli.ui.layouts import create_header_footer_layout
-
-        result = create_header_footer_layout(
-            header="Header",
-            content="Content"
-        )
-
-        assert result is not None
+        assert isinstance(result, Layout)
 
 
-class TestCreateSidebarLayout:
-    """Tests for create_sidebar_layout function."""
+class TestUpdateLayoutFooter:
+    """Tests for update_layout_footer function."""
 
-    def test_create_sidebar_layout(self):
-        """Test creating sidebar layout."""
-        from src.farmer_cli.ui.layouts import create_sidebar_layout
+    def test_update_layout_footer(self):
+        """Test updating layout footer."""
+        from src.farmer_cli.ui.layouts import create_main_layout, update_layout_footer
 
-        result = create_sidebar_layout(
-            sidebar="Sidebar",
-            main_content="Main Content"
-        )
+        layout = create_main_layout()
+        update_layout_footer(layout, "New footer text")
 
-        assert result is not None
+        # Should not raise
 
-    def test_create_sidebar_layout_with_title(self):
-        """Test creating sidebar layout with title."""
-        from src.farmer_cli.ui.layouts import create_sidebar_layout
+    def test_update_layout_footer_with_style(self):
+        """Test updating layout footer with style."""
+        from src.farmer_cli.ui.layouts import create_main_layout, update_layout_footer
 
-        result = create_sidebar_layout(
-            sidebar="Sidebar",
-            main_content="Main Content",
-            sidebar_title="Menu"
-        )
+        layout = create_main_layout()
+        update_layout_footer(layout, "Styled footer", style="bold red")
 
-        assert result is not None
+        # Should not raise
+
+    def test_update_layout_footer_no_footer(self):
+        """Test updating layout without footer section."""
+        from src.farmer_cli.ui.layouts import update_layout_footer
+        from rich.layout import Layout
+
+        layout = Layout()
+        # Should not raise even without footer
+        update_layout_footer(layout, "Text")
 
 
-class TestCreateCardLayout:
-    """Tests for create_card_layout function."""
+class TestUpdateLayoutHeader:
+    """Tests for update_layout_header function."""
 
-    def test_create_card_layout(self):
-        """Test creating card layout."""
-        from src.farmer_cli.ui.layouts import create_card_layout
+    def test_update_layout_header(self):
+        """Test updating layout header."""
+        from src.farmer_cli.ui.layouts import create_main_layout, update_layout_header
 
-        cards = [
-            {"title": "Card 1", "content": "Content 1"},
-            {"title": "Card 2", "content": "Content 2"},
-        ]
+        layout = create_main_layout()
+        update_layout_header(layout, "New header text")
 
-        result = create_card_layout(cards)
+        # Should not raise
 
-        assert result is not None
+    def test_update_layout_header_with_style(self):
+        """Test updating layout header with style."""
+        from src.farmer_cli.ui.layouts import create_main_layout, update_layout_header
 
-    def test_create_card_layout_empty(self):
-        """Test creating card layout with empty list."""
-        from src.farmer_cli.ui.layouts import create_card_layout
+        layout = create_main_layout()
+        update_layout_header(layout, "Styled header", style="bold green")
 
-        result = create_card_layout([])
-
-        assert result is not None
+        # Should not raise

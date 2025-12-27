@@ -1,7 +1,8 @@
 """Unit tests for feedback.py module."""
 
 import pytest
-from unittest.mock import patch, MagicMock
+import tempfile
+from pathlib import Path
 
 
 class TestFeedbackService:
@@ -11,102 +12,114 @@ class TestFeedbackService:
         """Test FeedbackService initialization."""
         from src.farmer_cli.services.feedback import FeedbackService
 
-        service = FeedbackService()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            feedback_file = Path(tmpdir) / "feedback.txt"
+            service = FeedbackService(feedback_file=feedback_file)
 
-        assert service is not None
+            assert service is not None
+            assert service.feedback_file == feedback_file
 
-    @patch("src.farmer_cli.services.feedback.console")
-    def test_show_success(self, mock_console):
-        """Test show_success displays success message."""
+    def test_submit_feedback(self):
+        """Test submitting feedback."""
         from src.farmer_cli.services.feedback import FeedbackService
 
-        service = FeedbackService()
-        service.show_success("Operation completed")
+        with tempfile.TemporaryDirectory() as tmpdir:
+            feedback_file = Path(tmpdir) / "feedback.txt"
+            service = FeedbackService(feedback_file=feedback_file)
 
-        mock_console.print.assert_called()
+            result = service.submit("Test feedback")
 
-    @patch("src.farmer_cli.services.feedback.console")
-    def test_show_error(self, mock_console):
-        """Test show_error displays error message."""
+            assert result is True
+            assert feedback_file.exists()
+
+    def test_submit_feedback_with_user(self):
+        """Test submitting feedback with user."""
         from src.farmer_cli.services.feedback import FeedbackService
 
-        service = FeedbackService()
-        service.show_error("Operation failed")
+        with tempfile.TemporaryDirectory() as tmpdir:
+            feedback_file = Path(tmpdir) / "feedback.txt"
+            service = FeedbackService(feedback_file=feedback_file)
 
-        mock_console.print.assert_called()
+            result = service.submit("Test feedback", user="testuser")
 
-    @patch("src.farmer_cli.services.feedback.console")
-    def test_show_warning(self, mock_console):
-        """Test show_warning displays warning message."""
+            assert result is True
+            content = feedback_file.read_text()
+            assert "testuser" in content
+
+    def test_get_all_no_feedback(self):
+        """Test getting all feedback when none exists."""
         from src.farmer_cli.services.feedback import FeedbackService
 
-        service = FeedbackService()
-        service.show_warning("Warning message")
+        with tempfile.TemporaryDirectory() as tmpdir:
+            feedback_file = Path(tmpdir) / "feedback.txt"
+            service = FeedbackService(feedback_file=feedback_file)
 
-        mock_console.print.assert_called()
+            result = service.get_all()
 
-    @patch("src.farmer_cli.services.feedback.console")
-    def test_show_info(self, mock_console):
-        """Test show_info displays info message."""
+            assert "No feedback" in result
+
+    def test_get_all_with_feedback(self):
+        """Test getting all feedback."""
         from src.farmer_cli.services.feedback import FeedbackService
 
-        service = FeedbackService()
-        service.show_info("Information message")
+        with tempfile.TemporaryDirectory() as tmpdir:
+            feedback_file = Path(tmpdir) / "feedback.txt"
+            service = FeedbackService(feedback_file=feedback_file)
 
-        mock_console.print.assert_called()
+            service.submit("Test feedback 1")
+            service.submit("Test feedback 2")
 
-    @patch("src.farmer_cli.services.feedback.console")
-    def test_show_progress(self, mock_console):
-        """Test show_progress displays progress."""
+            result = service.get_all()
+
+            assert "Test feedback 1" in result
+            assert "Test feedback 2" in result
+
+    def test_clear_feedback(self):
+        """Test clearing feedback."""
         from src.farmer_cli.services.feedback import FeedbackService
 
-        service = FeedbackService()
-        service.show_progress("Processing", 50, 100)
+        with tempfile.TemporaryDirectory() as tmpdir:
+            feedback_file = Path(tmpdir) / "feedback.txt"
+            service = FeedbackService(feedback_file=feedback_file)
 
-        mock_console.print.assert_called()
+            service.submit("Test feedback")
+            assert feedback_file.exists()
 
-    @patch("src.farmer_cli.services.feedback.console")
-    def test_clear(self, mock_console):
-        """Test clear clears the console."""
+            result = service.clear()
+
+            assert result is True
+            assert not feedback_file.exists()
+
+    def test_clear_no_feedback(self):
+        """Test clearing when no feedback exists."""
         from src.farmer_cli.services.feedback import FeedbackService
 
-        service = FeedbackService()
-        service.clear()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            feedback_file = Path(tmpdir) / "feedback.txt"
+            service = FeedbackService(feedback_file=feedback_file)
 
-        mock_console.clear.assert_called()
+            result = service.clear()
 
-
-class TestShowNotification:
-    """Tests for show_notification function."""
-
-    @patch("src.farmer_cli.services.feedback.console")
-    def test_show_notification(self, mock_console):
-        """Test show_notification displays notification."""
-        from src.farmer_cli.services.feedback import show_notification
-
-        show_notification("Test notification")
-
-        mock_console.print.assert_called()
-
-    @patch("src.farmer_cli.services.feedback.console")
-    def test_show_notification_with_type(self, mock_console):
-        """Test show_notification with notification type."""
-        from src.farmer_cli.services.feedback import show_notification
-
-        show_notification("Test notification", notification_type="success")
-
-        mock_console.print.assert_called()
+            assert result is True
 
 
-class TestShowSpinner:
-    """Tests for show_spinner context manager."""
+class TestGetFeedbackService:
+    """Tests for get_feedback_service function."""
 
-    @patch("src.farmer_cli.services.feedback.console")
-    def test_show_spinner(self, mock_console):
-        """Test show_spinner context manager."""
-        from src.farmer_cli.services.feedback import show_spinner
+    def test_get_feedback_service(self):
+        """Test getting global feedback service."""
+        from src.farmer_cli.services.feedback import get_feedback_service, FeedbackService
 
-        with show_spinner("Loading"):
-            pass
+        result = get_feedback_service()
 
-        # Should complete without error
+        assert result is not None
+        assert isinstance(result, FeedbackService)
+
+    def test_get_feedback_service_singleton(self):
+        """Test feedback service is singleton."""
+        from src.farmer_cli.services.feedback import get_feedback_service
+
+        service1 = get_feedback_service()
+        service2 = get_feedback_service()
+
+        assert service1 is service2

@@ -1,7 +1,8 @@
 """Unit tests for widgets.py module."""
 
 import pytest
-from unittest.mock import patch, MagicMock
+from rich.text import Text
+from rich.table import Table
 
 
 class TestCreateFrame:
@@ -14,7 +15,7 @@ class TestCreateFrame:
         result = create_frame("Content")
 
         assert result is not None
-        assert isinstance(result, str)
+        assert isinstance(result, Text)
 
     def test_create_frame_with_title(self):
         """Test creating frame with title."""
@@ -23,7 +24,7 @@ class TestCreateFrame:
         result = create_frame("Content", title="Title")
 
         assert result is not None
-        assert "Title" in result
+        assert "Title" in result.plain
 
     def test_create_frame_with_width(self):
         """Test creating frame with custom width."""
@@ -37,7 +38,7 @@ class TestCreateFrame:
         """Test creating frame with theme."""
         from src.farmer_cli.ui.widgets import create_frame
 
-        result = create_frame("Content", theme="ocean")
+        result = create_frame("Content", theme="default")
 
         assert result is not None
 
@@ -45,7 +46,49 @@ class TestCreateFrame:
         """Test creating frame with padding."""
         from src.farmer_cli.ui.widgets import create_frame
 
-        result = create_frame("Content", padding=2)
+        result = create_frame("Content", padding=4)
+
+        assert result is not None
+
+    def test_create_frame_multiline_content(self):
+        """Test creating frame with multiline content."""
+        from src.farmer_cli.ui.widgets import create_frame
+
+        result = create_frame("Line 1\nLine 2\nLine 3")
+
+        assert result is not None
+
+
+class TestCreateTable:
+    """Tests for create_table function."""
+
+    def test_create_table_basic(self):
+        """Test creating basic table."""
+        from src.farmer_cli.ui.widgets import create_table
+
+        columns = [("Name", {}), ("Value", {})]
+        rows = [["Item 1", "100"], ["Item 2", "200"]]
+
+        result = create_table("Test Table", columns, rows)
+
+        assert result is not None
+        assert isinstance(result, Table)
+
+    def test_create_table_with_options(self):
+        """Test creating table with options."""
+        from src.farmer_cli.ui.widgets import create_table
+
+        columns = [("Name", {"style": "bold"}), ("Value", {"justify": "right"})]
+        rows = [["Item 1", "100"]]
+
+        result = create_table(
+            "Test Table",
+            columns,
+            rows,
+            show_header=True,
+            show_lines=True,
+            style="blue"
+        )
 
         assert result is not None
 
@@ -100,7 +143,7 @@ class TestCreateCustomProgressBar:
         """Test creating progress bar with theme."""
         from src.farmer_cli.ui.widgets import create_custom_progress_bar
 
-        result = create_custom_progress_bar(current=50, total=100, theme="ocean")
+        result = create_custom_progress_bar(current=50, total=100, theme="default")
 
         assert result is not None
 
@@ -119,118 +162,58 @@ class TestCreateCustomProgressBar:
         result = create_custom_progress_bar(current=100, total=100)
 
         assert result is not None
+        assert "100" in result
 
+    def test_create_custom_progress_bar_with_numbers(self):
+        """Test creating progress bar with numbers."""
+        from src.farmer_cli.ui.widgets import create_custom_progress_bar
 
-class TestCreateStatusBadge:
-    """Tests for create_status_badge function."""
-
-    def test_create_status_badge_success(self):
-        """Test creating success status badge."""
-        from src.farmer_cli.ui.widgets import create_status_badge
-
-        result = create_status_badge("Success", "success")
+        result = create_custom_progress_bar(current=50, total=100, show_numbers=True)
 
         assert result is not None
-        assert "Success" in result
+        assert "50" in result
+        assert "100" in result
 
-    def test_create_status_badge_error(self):
-        """Test creating error status badge."""
-        from src.farmer_cli.ui.widgets import create_status_badge
 
-        result = create_status_badge("Error", "error")
+class TestShowProgress:
+    """Tests for show_progress function."""
 
-        assert result is not None
+    def test_show_progress(self):
+        """Test show_progress returns Progress object."""
+        from src.farmer_cli.ui.widgets import show_progress
+        from rich.progress import Progress
 
-    def test_create_status_badge_warning(self):
-        """Test creating warning status badge."""
-        from src.farmer_cli.ui.widgets import create_status_badge
-
-        result = create_status_badge("Warning", "warning")
+        result = show_progress("Processing...")
 
         assert result is not None
+        assert isinstance(result, Progress)
 
-    def test_create_status_badge_info(self):
-        """Test creating info status badge."""
-        from src.farmer_cli.ui.widgets import create_status_badge
+    def test_show_progress_with_total(self):
+        """Test show_progress with total."""
+        from src.farmer_cli.ui.widgets import show_progress
 
-        result = create_status_badge("Info", "info")
+        result = show_progress("Processing...", total=100)
 
         assert result is not None
 
 
-class TestCreateInfoBox:
-    """Tests for create_info_box function."""
+class TestCreateSpinner:
+    """Tests for create_spinner function."""
 
-    def test_create_info_box_basic(self):
-        """Test creating basic info box."""
-        from src.farmer_cli.ui.widgets import create_info_box
+    def test_create_spinner(self):
+        """Test create_spinner returns Live object."""
+        from src.farmer_cli.ui.widgets import create_spinner
+        from rich.live import Live
 
-        result = create_info_box("Information message")
-
-        assert result is not None
-
-    def test_create_info_box_with_title(self):
-        """Test creating info box with title."""
-        from src.farmer_cli.ui.widgets import create_info_box
-
-        result = create_info_box("Information message", title="Info")
+        result = create_spinner("Loading...")
 
         assert result is not None
+        assert isinstance(result, Live)
 
+    def test_create_spinner_default_text(self):
+        """Test create_spinner with default text."""
+        from src.farmer_cli.ui.widgets import create_spinner
 
-class TestCreateWarningBox:
-    """Tests for create_warning_box function."""
-
-    def test_create_warning_box_basic(self):
-        """Test creating basic warning box."""
-        from src.farmer_cli.ui.widgets import create_warning_box
-
-        result = create_warning_box("Warning message")
-
-        assert result is not None
-
-
-class TestCreateErrorBox:
-    """Tests for create_error_box function."""
-
-    def test_create_error_box_basic(self):
-        """Test creating basic error box."""
-        from src.farmer_cli.ui.widgets import create_error_box
-
-        result = create_error_box("Error message")
-
-        assert result is not None
-
-
-class TestCreateSuccessBox:
-    """Tests for create_success_box function."""
-
-    def test_create_success_box_basic(self):
-        """Test creating basic success box."""
-        from src.farmer_cli.ui.widgets import create_success_box
-
-        result = create_success_box("Success message")
-
-        assert result is not None
-
-
-class TestCreateKeyValueDisplay:
-    """Tests for create_key_value_display function."""
-
-    def test_create_key_value_display(self):
-        """Test creating key value display."""
-        from src.farmer_cli.ui.widgets import create_key_value_display
-
-        data = {"Key1": "Value1", "Key2": "Value2"}
-
-        result = create_key_value_display(data)
-
-        assert result is not None
-
-    def test_create_key_value_display_empty(self):
-        """Test creating key value display with empty dict."""
-        from src.farmer_cli.ui.widgets import create_key_value_display
-
-        result = create_key_value_display({})
+        result = create_spinner()
 
         assert result is not None

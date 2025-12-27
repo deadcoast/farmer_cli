@@ -3,7 +3,43 @@
 import pytest
 import tempfile
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+
+
+class TestValidateDirectory:
+    """Tests for validate_directory function."""
+
+    def test_validate_directory_valid(self):
+        """Test validating a valid directory."""
+        from src.farmer_cli.utils.directory_utils import validate_directory
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            result = validate_directory(tmpdir)
+
+            assert result.is_valid is True
+            assert result.exists is True
+            assert result.is_writable is True
+            assert result.error is None
+
+    def test_validate_directory_nonexistent(self):
+        """Test validating a nonexistent directory."""
+        from src.farmer_cli.utils.directory_utils import validate_directory
+
+        result = validate_directory("/nonexistent/path/that/does/not/exist")
+
+        assert result.is_valid is False
+        assert result.exists is False
+        assert result.error is not None
+
+    def test_validate_directory_file_not_dir(self):
+        """Test validating a file path (not directory)."""
+        from src.farmer_cli.utils.directory_utils import validate_directory
+
+        with tempfile.NamedTemporaryFile() as tmpfile:
+            result = validate_directory(tmpfile.name)
+
+            assert result.is_valid is False
+            assert result.exists is True
+            assert "not a directory" in result.error.lower()
 
 
 class TestEnsureDirectory:
@@ -18,7 +54,7 @@ class TestEnsureDirectory:
 
             result = ensure_directory(str(new_dir))
 
-            assert result is True
+            assert result.is_valid is True
             assert new_dir.exists()
 
     def test_ensure_directory_existing(self):
@@ -28,7 +64,7 @@ class TestEnsureDirectory:
         with tempfile.TemporaryDirectory() as tmpdir:
             result = ensure_directory(tmpdir)
 
-            assert result is True
+            assert result.is_valid is True
 
     def test_ensure_directory_nested(self):
         """Test ensure_directory creates nested directories."""
@@ -39,145 +75,108 @@ class TestEnsureDirectory:
 
             result = ensure_directory(str(nested_dir))
 
-            assert result is True
+            assert result.is_valid is True
             assert nested_dir.exists()
 
 
-class TestIsWritable:
-    """Tests for is_writable function."""
+class TestIsPathWritable:
+    """Tests for is_path_writable function."""
 
-    def test_is_writable_true(self):
-        """Test is_writable returns True for writable directory."""
-        from src.farmer_cli.utils.directory_utils import is_writable
+    def test_is_path_writable_true(self):
+        """Test is_path_writable returns True for writable directory."""
+        from src.farmer_cli.utils.directory_utils import is_path_writable
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            result = is_writable(tmpdir)
+            result = is_path_writable(tmpdir)
 
             assert result is True
 
-    def test_is_writable_nonexistent(self):
-        """Test is_writable returns False for nonexistent directory."""
-        from src.farmer_cli.utils.directory_utils import is_writable
+    def test_is_path_writable_nonexistent_parent_writable(self):
+        """Test is_path_writable for nonexistent path with writable parent."""
+        from src.farmer_cli.utils.directory_utils import is_path_writable
 
-        result = is_writable("/nonexistent/path/that/does/not/exist")
+        with tempfile.TemporaryDirectory() as tmpdir:
+            nonexistent = Path(tmpdir) / "nonexistent"
+            result = is_path_writable(str(nonexistent))
+
+            assert result is True
+
+
+class TestGetAvailableSpace:
+    """Tests for get_available_space function."""
+
+    def test_get_available_space(self):
+        """Test getting available space."""
+        from src.farmer_cli.utils.directory_utils import get_available_space
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            result = get_available_space(tmpdir)
+
+            assert result is not None
+            assert result > 0
+
+    def test_get_available_space_nonexistent(self):
+        """Test getting available space for nonexistent path."""
+        from src.farmer_cli.utils.directory_utils import get_available_space
+
+        # Should return None or find parent
+        result = get_available_space("/completely/nonexistent/path/xyz")
+
+        # Result depends on whether any parent exists
+        # Just verify it doesn't raise
+
+
+class TestNormalizePath:
+    """Tests for normalize_path function."""
+
+    def test_normalize_path(self):
+        """Test normalizing a path."""
+        from src.farmer_cli.utils.directory_utils import normalize_path
+
+        result = normalize_path("./test")
+
+        assert result is not None
+        assert isinstance(result, Path)
+        assert result.is_absolute()
+
+    def test_normalize_path_with_home(self):
+        """Test normalizing path with home directory."""
+        from src.farmer_cli.utils.directory_utils import normalize_path
+
+        result = normalize_path("~/test")
+
+        assert result is not None
+        assert "~" not in str(result)
+
+
+class TestIsSubdirectory:
+    """Tests for is_subdirectory function."""
+
+    def test_is_subdirectory_true(self):
+        """Test is_subdirectory returns True for subdirectory."""
+        from src.farmer_cli.utils.directory_utils import is_subdirectory
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            child = Path(tmpdir) / "child"
+            child.mkdir()
+
+            result = is_subdirectory(str(child), tmpdir)
+
+            assert result is True
+
+    def test_is_subdirectory_false(self):
+        """Test is_subdirectory returns False for non-subdirectory."""
+        from src.farmer_cli.utils.directory_utils import is_subdirectory
+
+        result = is_subdirectory("/tmp", "/var")
 
         assert result is False
 
-
-class TestGetDirectorySize:
-    """Tests for get_directory_size function."""
-
-    def test_get_directory_size_empty(self):
-        """Test get_directory_size for empty directory."""
-        from src.farmer_cli.utils.directory_utils import get_directory_size
+    def test_is_subdirectory_same_path(self):
+        """Test is_subdirectory returns True for same path."""
+        from src.farmer_cli.utils.directory_utils import is_subdirectory
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            result = get_directory_size(tmpdir)
+            result = is_subdirectory(tmpdir, tmpdir)
 
-            assert result == 0
-
-    def test_get_directory_size_with_files(self):
-        """Test get_directory_size with files."""
-        from src.farmer_cli.utils.directory_utils import get_directory_size
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            # Create some files
-            (Path(tmpdir) / "file1.txt").write_text("content1")
-            (Path(tmpdir) / "file2.txt").write_text("content2")
-
-            result = get_directory_size(tmpdir)
-
-            assert result > 0
-
-
-class TestListFiles:
-    """Tests for list_files function."""
-
-    def test_list_files_all(self):
-        """Test list_files returns all files."""
-        from src.farmer_cli.utils.directory_utils import list_files
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            (Path(tmpdir) / "file1.txt").write_text("content1")
-            (Path(tmpdir) / "file2.py").write_text("content2")
-
-            result = list_files(tmpdir)
-
-            assert len(result) == 2
-
-    def test_list_files_with_pattern(self):
-        """Test list_files with pattern filter."""
-        from src.farmer_cli.utils.directory_utils import list_files
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            (Path(tmpdir) / "file1.txt").write_text("content1")
-            (Path(tmpdir) / "file2.py").write_text("content2")
-
-            result = list_files(tmpdir, pattern="*.txt")
-
-            assert len(result) == 1
-            assert "file1.txt" in str(result[0])
-
-    def test_list_files_empty_directory(self):
-        """Test list_files on empty directory."""
-        from src.farmer_cli.utils.directory_utils import list_files
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            result = list_files(tmpdir)
-
-            assert result == []
-
-
-class TestGetRelativePath:
-    """Tests for get_relative_path function."""
-
-    def test_get_relative_path(self):
-        """Test get_relative_path returns relative path."""
-        from src.farmer_cli.utils.directory_utils import get_relative_path
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            file_path = Path(tmpdir) / "subdir" / "file.txt"
-            file_path.parent.mkdir(parents=True, exist_ok=True)
-            file_path.write_text("content")
-
-            result = get_relative_path(str(file_path), tmpdir)
-
-            assert "subdir" in result
-            assert "file.txt" in result
-
-
-class TestCopyDirectory:
-    """Tests for copy_directory function."""
-
-    def test_copy_directory(self):
-        """Test copy_directory copies all contents."""
-        from src.farmer_cli.utils.directory_utils import copy_directory
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            src_dir = Path(tmpdir) / "source"
-            src_dir.mkdir()
-            (src_dir / "file.txt").write_text("content")
-
-            dst_dir = Path(tmpdir) / "destination"
-
-            copy_directory(str(src_dir), str(dst_dir))
-
-            assert dst_dir.exists()
-            assert (dst_dir / "file.txt").exists()
-
-
-class TestDeleteDirectory:
-    """Tests for delete_directory function."""
-
-    def test_delete_directory(self):
-        """Test delete_directory removes directory."""
-        from src.farmer_cli.utils.directory_utils import delete_directory
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            dir_to_delete = Path(tmpdir) / "to_delete"
-            dir_to_delete.mkdir()
-            (dir_to_delete / "file.txt").write_text("content")
-
-            delete_directory(str(dir_to_delete))
-
-            assert not dir_to_delete.exists()
+            assert result is True
