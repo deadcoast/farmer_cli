@@ -146,4 +146,9 @@ class PreferencesService:
             "show_tips": True,
             "export_format": "csv",
             "last_directory": str(Path.home()),
+            # Download output settings (Requirements 6.1, 6.2, 6.4)
+            "download_directory": str(Path.home() / "Downloads"),
+            "filename_template": "%(title)s.%(ext)s",
+            "conflict_resolution": "rename",
+            "subdirectory_organization": "none",
         }

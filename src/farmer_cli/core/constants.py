@@ -51,9 +51,16 @@ SYSTEM_TOOLS_OPTIONS = [
 USER_MANAGEMENT_OPTIONS = [
     ("1", "Add User"),
     ("2", "List Users"),
-    ("3", "Export Users to CSV"),
+    ("3", "Update User"),
+    ("4", "Delete User"),
+    ("5", "Search Users"),
+    ("6", "Export Users to CSV"),
     ("0", "Return to Main Menu"),
 ]
+
+# Pagination configuration
+DEFAULT_PAGE_SIZE = 10
+MAX_PAGE_SIZE = 100
 
 # Theme configuration
 DEFAULT_THEME = "default"

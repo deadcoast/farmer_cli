@@ -200,46 +200,46 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Handle download completion/failure states
     - _Requirements: 1.3_
 
-- [ ] 12. Implement output configuration
-  - [ ] 12.1 Add download settings to preferences
+- [x] 12. Implement output configuration
+  - [x] 12.1 Add download settings to preferences
     - Default download directory
     - Filename template
     - Conflict resolution preference
     - Subdirectory organization preference
     - _Requirements: 6.1, 6.2, 6.4_
-  - [ ] 12.2 Implement directory validation
+  - [x] 12.2 Implement directory validation
     - Validate path exists and is writable
     - Auto-create subdirectories as needed
     - _Requirements: 6.5, 6.6_
-  - [ ] 12.3 Write property tests for directory validation
+  - [x] 12.3 Write property tests for directory validation
     - **Property 15: Directory Validation**
     - **Validates: Requirements 6.5**
-  - [ ] 12.4 Implement filename conflict resolution
+  - [x] 12.4 Implement filename conflict resolution
     - Detect existing files
     - Offer rename/overwrite/skip options
     - _Requirements: 6.3_
 
-- [ ] 13. Checkpoint - Ensure all tests pass
+- [x] 13. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 14. Enhance user management feature
-  - [ ] 14.1 Implement user update functionality
+- [-] 14. Enhance user management feature
+  - [x] 14.1 Implement user update functionality
     - Add update_user() method to UserManagementFeature
     - Create UI for editing user name and preferences
     - _Requirements: 7.2_
-  - [ ] 14.2 Implement user deletion with confirmation
+  - [x] 14.2 Implement user deletion with confirmation
     - Add delete_user() method with confirmation prompt
     - Handle cascade deletion of related data
     - _Requirements: 7.3_
-  - [ ] 14.3 Implement user pagination
+  - [x] 14.3 Implement user pagination
     - Add pagination to list_users() method
     - Update UI to show page navigation
     - _Requirements: 7.4_
-  - [ ] 14.4 Implement user search
+  - [x] 14.4 Implement user search
     - Add search_users() method with name matching
     - Update UI with search input
     - _Requirements: 7.5_
-  - [ ] 14.5 Write property tests for user name validation
+  - [-] 14.5 Write property tests for user name validation
     - **Property 16: User Name Validation**
     - **Validates: Requirements 7.1**
   - [ ] 14.6 Write property tests for user serialization round-trip
