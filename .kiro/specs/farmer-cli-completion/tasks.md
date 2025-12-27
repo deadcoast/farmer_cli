@@ -469,7 +469,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Test ConflictResolver class methods
     - *Requirements: 9.1, 9.3*
 
-- [-] 26. Additional unit tests for remaining low-coverage modules
+- [x] 26. Additional unit tests for remaining low-coverage modules
   - [x] 26.1 Write unit tests for __main__.py (currently 0%)
     - Test main() function routing logic
     - Test keyboard interrupt handling
@@ -506,7 +506,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Test console initialization
     - Test get_prompt_session() function
     - *Requirements: 9.1, 9.3*
-  - [-] 26.6 Write unit tests for utils/validators.py (currently 22%)
+  - [x] 26.6 Write unit tests for utils/validators.py (currently 22%)
     - Test validate_json() function
     - Test validate_email() function
     - Test validate_path() function
@@ -518,19 +518,19 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Test validate_choice() function
     - Test validate_range() function
     - *Requirements: 9.1, 9.3*
-  - [ ] 26.7 Write unit tests for utils/url_utils.py (currently 53%)
+  - [x] 26.7 Write unit tests for utils/url_utils.py (currently 53%)
     - Test is_valid_url() with edge cases
     - Test is_supported_platform() for all platforms
     - Test extract_video_id() for YouTube, Vimeo, direct URLs
     - Test get_supported_platforms() function
     - Test get_platform_domains() function
     - *Requirements: 9.1, 9.3*
-  - [ ] 26.8 Write unit tests for features/log_viewer.py (currently 12%)
+  - [x] 26.8 Write unit tests for features/log_viewer.py (currently 12%)
     - Test LogViewerFeature.execute() method
     - Test log filtering by level
     - Test log display formatting
     - *Requirements: 9.1, 9.3*
-  - [ ] 26.9 Write unit tests for core/app.py (currently 25%)
+  - [x] 26.9 Write unit tests for core/app.py (currently 25%)
     - Test App initialization
     - Test feature registration
     - Test menu action handling
