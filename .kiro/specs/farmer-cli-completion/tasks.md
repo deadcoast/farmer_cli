@@ -550,7 +550,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Ensure database connections are properly closed in test_database_rollback_properties.py
     - *Requirements: Code quality*
 
-- [-] 28. Checkpoint - Verify 80% coverage target
+- [x] 28. Checkpoint - Verify 80% coverage target
   - Run full test suite with coverage
   - Verify minimum 80% code coverage achieved
   - Ensure all tests pass, ask the user if questions arise.
