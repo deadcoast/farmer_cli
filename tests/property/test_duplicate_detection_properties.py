@@ -276,7 +276,8 @@ class TestDuplicateDetectionAccuracy:
 
         # Verify result is the newer entry
         assert result is not None, "check_duplicate should find entry"
-        assert result.title == title, "Should return the most recent entry"
+        # Note: title may be stripped by the model validator
+        assert result.title == (title.strip() if title else title), "Should return the most recent entry"
         assert result.file_path == file_path, "Should return the most recent entry"
 
     @pytest.mark.property

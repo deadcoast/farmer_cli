@@ -90,7 +90,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Update DatabaseManager.initialize() method
     - _Requirements: 11.3_
 
-- [-] 6. Implement download manager service
+- [x] 6. Implement download manager service
   - [x] 6.1 Implement DownloadManager.add_to_queue() method
     - Create QueueItem with generated UUID
     - Persist to database
