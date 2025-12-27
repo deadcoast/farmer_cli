@@ -1,0 +1,16 @@
+{
+    "check_updates": true,
+    "conflict_resolution": "rename",
+    "default_format": null,
+    "download_directory": "/Users/deadcoast/Downloads",
+    "export_format": "csv",
+    "filename_template": "%(title)s.%(ext)s",
+    "first_run": true,
+    "last_directory": "/Users/deadcoast",
+    "last_exit": "2025-12-26T23:15:00.367891",
+    "max_concurrent_downloads": 3,
+    "prefer_audio_only": false,
+    "show_tips": true,
+    "subdirectory_organization": "none",
+    "theme": "default"
+}

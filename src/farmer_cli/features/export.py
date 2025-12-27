@@ -2,7 +2,7 @@
 Export functionality for Farmer CLI.
 
 This module provides export capabilities for various data formats
-including CSV and PDF.
+including CSV, JSON, and PDF.
 """
 
 import csv
@@ -16,6 +16,9 @@ from ..core.constants import HTML_TEMP_FILE
 from ..core.constants import PDF_EXPORT_FILE
 from ..core.database import get_session
 from ..models.user import User
+from ..services.export import ExportFormat
+from ..services.export import ExportResult
+from ..services.export import ExportService
 from ..ui.console import console
 from .base import BaseFeature
 
@@ -57,21 +60,184 @@ class ExportFeature(BaseFeature):
     def __init__(self):
         """Initialize the export feature."""
         super().__init__(name="Export", description="Export data to various formats")
+        self._export_service = ExportService()
 
     def execute(self, export_type: str = "csv", **kwargs: Any) -> None:
         """
         Execute export based on type.
 
         Args:
-            export_type: Type of export (csv, pdf)
+            export_type: Type of export (csv, json, pdf)
             **kwargs: Additional arguments for specific export types
         """
         if export_type == "csv":
-            export_users_to_csv()
+            self.export_users_csv()
+        elif export_type == "json":
+            self.export_users_json()
         elif export_type == "pdf":
             export_help_to_pdf()
+        elif export_type == "history_csv":
+            self.export_history_csv()
+        elif export_type == "history_json":
+            self.export_history_json()
+        elif export_type == "history_pdf":
+            self.export_history_pdf()
         else:
             console.print(f"[bold red]Unknown export type: {export_type}[/bold red]")
+
+    def export_users_csv(self, filename: Optional[str] = None) -> ExportResult | None:
+        """
+        Export users to CSV file using the export service.
+
+        Args:
+            filename: Output filename (defaults to CSV_EXPORT_FILE)
+
+        Returns:
+            ExportResult or None if export fails
+        """
+        output_file = Path(filename or CSV_EXPORT_FILE)
+
+        try:
+            result = self._export_service.export_users(
+                output_path=output_file,
+                format=ExportFormat.CSV,
+            )
+            self._report_export_result(result)
+            return result
+        except Exception as e:
+            console.print(f"[bold red]Failed to export users to CSV: {e}[/bold red]")
+            logger.error(f"Failed to export users to CSV: {e}")
+            return None
+
+    def export_users_json(self, filename: Optional[str] = None) -> ExportResult | None:
+        """
+        Export users to JSON file using the export service.
+
+        Args:
+            filename: Output filename (defaults to users_export.json)
+
+        Returns:
+            ExportResult or None if export fails
+        """
+        output_file = Path(filename or "users_export.json")
+
+        try:
+            result = self._export_service.export_users(
+                output_path=output_file,
+                format=ExportFormat.JSON,
+            )
+            self._report_export_result(result)
+            return result
+        except Exception as e:
+            console.print(f"[bold red]Failed to export users to JSON: {e}[/bold red]")
+            logger.error(f"Failed to export users to JSON: {e}")
+            return None
+
+    def export_history_csv(self, filename: Optional[str] = None) -> ExportResult | None:
+        """
+        Export download history to CSV file.
+
+        Args:
+            filename: Output filename (defaults to history_export.csv)
+
+        Returns:
+            ExportResult or None if export fails
+        """
+        output_file = Path(filename or "history_export.csv")
+
+        try:
+            result = self._export_service.export_history(
+                output_path=output_file,
+                format=ExportFormat.CSV,
+            )
+            self._report_export_result(result)
+            return result
+        except Exception as e:
+            console.print(f"[bold red]Failed to export history to CSV: {e}[/bold red]")
+            logger.error(f"Failed to export history to CSV: {e}")
+            return None
+
+    def export_history_json(self, filename: Optional[str] = None) -> ExportResult | None:
+        """
+        Export download history to JSON file.
+
+        Args:
+            filename: Output filename (defaults to history_export.json)
+
+        Returns:
+            ExportResult or None if export fails
+        """
+        output_file = Path(filename or "history_export.json")
+
+        try:
+            result = self._export_service.export_history(
+                output_path=output_file,
+                format=ExportFormat.JSON,
+            )
+            self._report_export_result(result)
+            return result
+        except Exception as e:
+            console.print(f"[bold red]Failed to export history to JSON: {e}[/bold red]")
+            logger.error(f"Failed to export history to JSON: {e}")
+            return None
+
+    def export_history_pdf(self, filename: Optional[str] = None) -> ExportResult | None:
+        """
+        Export download history to PDF file.
+
+        Args:
+            filename: Output filename (defaults to history_export.pdf)
+
+        Returns:
+            ExportResult or None if export fails
+        """
+        output_file = Path(filename or "history_export.pdf")
+
+        try:
+            result = self._export_service.export_history(
+                output_path=output_file,
+                format=ExportFormat.PDF,
+            )
+            self._report_export_result(result)
+            return result
+        except Exception as e:
+            console.print(f"[bold red]Failed to export history to PDF: {e}[/bold red]")
+            logger.error(f"Failed to export history to PDF: {e}")
+            return None
+
+    def _report_export_result(self, result: ExportResult) -> None:
+        """
+        Report export completion with file location and size.
+
+        Args:
+            result: The export result to report
+        """
+        if result.success:
+            if result.record_count > 0:
+                console.print(
+                    f"[bold green]✓ {result.message}[/bold green]"
+                )
+                console.print(
+                    f"[dim]  File: {result.file_path}[/dim]"
+                )
+                console.print(
+                    f"[dim]  Size: {result.file_size_formatted}[/dim]"
+                )
+                console.print(
+                    f"[dim]  Records: {result.record_count}[/dim]"
+                )
+            else:
+                console.print(f"[bold yellow]{result.message}[/bold yellow]")
+        else:
+            console.print(f"[bold red]Export failed: {result.message}[/bold red]")
+
+    def cleanup(self) -> None:
+        """
+        Cleanup the export feature.
+
+        No cleanup required for this feature.
+        """
+        pass
 
 
 def export_users_to_csv(filename: Optional[str] = None) -> None:

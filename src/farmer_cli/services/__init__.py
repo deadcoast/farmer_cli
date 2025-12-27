@@ -8,6 +8,10 @@ across different features of the application.
 from .async_tasks import AsyncTaskManager
 from .download_manager import DownloadManager
 from .download_manager import HistoryEntry
+from .export import ExportFormat
+from .export import ExportResult
+from .export import ExportService
+from .export import ImportResult
 from .feedback import FeedbackService
 from .feedback import submit_feedback
 from .format_selector import FormatSelector
@@ -27,9 +31,13 @@ __all__ = [
     "DownloadManager",
     "DownloadProgress",
     "DownloadStatus",
+    "ExportFormat",
+    "ExportResult",
+    "ExportService",
     "FeedbackService",
     "FormatSelector",
     "HistoryEntry",
+    "ImportResult",
     "PlaylistHandler",
     "PreferencesService",
     "VideoFormat",

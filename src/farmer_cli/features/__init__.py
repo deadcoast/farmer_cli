@@ -10,6 +10,8 @@ from .data_processing import DataProcessingFeature
 from .export import ExportFeature
 from .file_browser import browse_files
 from .help_system import HelpSystem
+from .log_viewer import LogViewerFeature
+from .log_viewer import view_logs
 from .system_tools import SystemToolsFeature
 from .user_manager import UserManagementFeature
 from .video_downloader import VideoDownloaderFeature
@@ -21,9 +23,11 @@ __all__ = [
     "DataProcessingFeature",
     "ExportFeature",
     "HelpSystem",
+    "LogViewerFeature",
     "SystemToolsFeature",
     "UserManagementFeature",
     "VideoDownloaderFeature",
     "browse_files",
     "check_weather",
+    "view_logs",
 ]

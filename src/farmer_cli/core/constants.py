@@ -45,6 +45,7 @@ SYSTEM_TOOLS_OPTIONS = [
     ("2", "Check Weather"),
     ("3", "Export Help to PDF"),
     ("4", "Submit Feedback"),
+    ("5", "View Logs"),
     ("0", "Return to Main Menu"),
 ]
 

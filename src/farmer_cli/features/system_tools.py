@@ -2,7 +2,7 @@
 System tools feature for Farmer CLI.
 
 This module provides system-related tools including file browsing,
-weather checking, export functionality, and feedback submission.
+weather checking, export functionality, feedback submission, and log viewing.
 """
 
 from ..core.constants import SYSTEM_TOOLS_OPTIONS
@@ -12,6 +12,7 @@ from ..ui.menu import MenuManager
 from .base import BaseFeature
 from .export import export_help_to_pdf
 from .file_browser import browse_files
+from .log_viewer import LogViewerFeature
 from .weather import check_weather
 
 
@@ -26,6 +27,7 @@ class SystemToolsFeature(BaseFeature):
         """Initialize the system tools feature."""
         super().__init__(name="System Tools", description="File browser, weather checking, and monitoring")
         self.menu_manager = MenuManager()
+        self.log_viewer = LogViewerFeature()
 
     def execute(self) -> None:
         """Execute the system tools feature."""
@@ -40,9 +42,11 @@ class SystemToolsFeature(BaseFeature):
             elif choice == "2":
                 check_weather()
             elif choice == "3":
-                self._export_help()
+                export_help_to_pdf()
             elif choice == "4":
                 submit_feedback()
+            elif choice == "5":
+                self.log_viewer.execute()
 
     def _export_help(self) -> None:
         """Export help to PDF with error handling."""

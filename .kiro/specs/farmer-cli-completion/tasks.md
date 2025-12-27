@@ -258,71 +258,71 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Detect corrupted preferences file
     - Reset to defaults and notify user
     - _Requirements: 8.5_
-  - [-] 15.4 Write property tests for preferences round-trip
+  - [x] 15.4 Write property tests for preferences round-trip
     - **Property 2: Preferences Round-Trip**
     - **Validates: Requirements 8.6**
 
 - [ ] 16. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 17. Enhance export service
-  - [ ] 17.1 Add JSON export format
+- [x] 17. Enhance export service
+  - [x] 17.1 Add JSON export format
     - Implement export_to_json() method
     - Support field selection
     - _Requirements: 12.1, 12.2_
-  - [ ] 17.2 Implement download history export
+  - [x] 17.2 Implement download history export
     - Add export_history() method
     - Support all three formats (CSV, JSON, PDF)
     - _Requirements: 12.3_
-  - [ ] 17.3 Implement data import functionality
+  - [x] 17.3 Implement data import functionality
     - Add import_data() method for JSON format
     - Validate imported data structure
     - _Requirements: 12.6_
-  - [ ] 17.4 Write property tests for export/import round-trip
+  - [x] 17.4 Write property tests for export/import round-trip
     - **Property 3: Export/Import Round-Trip**
     - **Validates: Requirements 12.6**
-  - [ ] 17.5 Add export completion reporting
+  - [x] 17.5 Add export completion reporting
     - Report file location and size after export
     - _Requirements: 12.4_
 
-- [ ] 18. Implement CLI interface
-  - [ ] 18.1 Create Click-based CLI (cli.py)
+- [x] 18. Implement CLI interface
+  - [x] 18.1 Create Click-based CLI (cli.py)
     - Set up Click group with version and help
     - Implement --quiet flag for minimal output
     - _Requirements: 13.4, 13.5_
-  - [ ] 18.2 Implement download command
+  - [x] 18.2 Implement download command
     - Add `download` command with URL argument
     - Add --format option for format selection
     - Add --output option for output path
     - _Requirements: 13.1, 13.2, 13.3_
-  - [ ] 18.3 Update __main__.py for CLI integration
+  - [x] 18.3 Update __main__.py for CLI integration
     - Route to CLI or interactive mode based on arguments
     - Handle argument parsing errors gracefully
     - _Requirements: 13.6_
-  - [ ] 18.4 Write property tests for CLI argument handling
+  - [x] 18.4 Write property tests for CLI argument handling
     - **Property 18: CLI Invalid Argument Handling**
     - **Validates: Requirements 13.6**
 
-- [ ] 19. Checkpoint - Ensure all tests pass
+- [x] 19. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 20. Implement error handling and logging
-  - [ ] 20.1 Create logging configuration (core/logging_config.py)
+- [x] 20. Implement error handling and logging
+  - [x] 20.1 Create logging configuration (core/logging_config.py)
     - Configure console handler for user-friendly messages
     - Configure file handler with full stack traces
     - Support configurable log levels
     - _Requirements: 10.2, 10.3_
-  - [ ] 20.2 Implement user-friendly error messages
+  - [x] 20.2 Implement user-friendly error messages
     - Create error message templates for common errors
     - Add troubleshooting suggestions for network errors
     - _Requirements: 10.1, 10.4_
-  - [ ] 20.3 Write property tests for error message user-friendliness
+  - [x] 20.3 Write property tests for error message user-friendliness
     - **Property 9: Error Message User-Friendliness**
     - **Validates: Requirements 10.1**
-  - [ ] 20.4 Write property tests for error logging completeness
+  - [x] 20.4 Write property tests for error logging completeness
     - **Property 10: Error Logging Completeness**
     - **Validates: Requirements 10.2**
-  - [ ] 20.5 Add log viewer to UI
+  - [x] 20.5 Add log viewer to UI
     - Create feature to view recent log entries
     - Support filtering by log level
     - _Requirements: 10.6_
