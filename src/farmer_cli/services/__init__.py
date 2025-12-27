@@ -11,6 +11,8 @@ from .download_manager import HistoryEntry
 from .feedback import FeedbackService
 from .feedback import submit_feedback
 from .format_selector import FormatSelector
+from .playlist_handler import BatchDownloadResult
+from .playlist_handler import PlaylistHandler
 from .preferences import PreferencesService
 from .ytdlp_wrapper import DownloadProgress
 from .ytdlp_wrapper import DownloadStatus
@@ -21,12 +23,14 @@ from .ytdlp_wrapper import YtdlpWrapper
 
 __all__ = [
     "AsyncTaskManager",
+    "BatchDownloadResult",
     "DownloadManager",
     "DownloadProgress",
     "DownloadStatus",
     "FeedbackService",
     "FormatSelector",
     "HistoryEntry",
+    "PlaylistHandler",
     "PreferencesService",
     "VideoFormat",
     "VideoInfo",

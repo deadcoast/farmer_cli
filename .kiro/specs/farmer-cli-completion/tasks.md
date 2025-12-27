@@ -148,17 +148,17 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Implement get_default_format() loading from preferences
     - _Requirements: 2.6_
 
-- [ ] 9. Implement playlist handler service
-  - [ ] 9.1 Create PlaylistHandler class (services/playlist_handler.py)
+- [-] 9. Implement playlist handler service
+  - [x] 9.1 Create PlaylistHandler class (services/playlist_handler.py)
     - Implement enumerate_playlist() using YtdlpWrapper
     - Implement get_range() for selective downloading
     - _Requirements: 3.1, 3.5_
-  - [ ] 9.2 Implement batch download functionality
+  - [x] 9.2 Implement batch download functionality
     - Implement download_batch() with concurrent downloads
     - Track successes and failures separately
     - Generate summary report
     - _Requirements: 3.3, 3.4, 3.6_
-  - [ ] 9.3 Write property tests for batch failure isolation
+  - [-] 9.3 Write property tests for batch failure isolation
     - **Property 20: Batch Failure Isolation**
     - **Validates: Requirements 3.4**
 
