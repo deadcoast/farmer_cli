@@ -11,12 +11,12 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Create `tests/`, `tests/unit/`, `tests/property/`, `tests/integration/`
     - Set up pytest configuration in pyproject.toml
     - Create shared fixtures for database, temp files, mock services
-    - _Requirements: 9.1, 9.2_
+    - *Requirements: 9.1, 9.2*
   - [x] 1.2 Implement URL validation utilities (utils/url_utils.py)
     - Create `is_valid_url()` function with regex validation
     - Create `is_supported_platform()` to check against supported sites
     - Create `extract_video_id()` for URL parsing
-    - _Requirements: 1.2, 1.6_
+    - *Requirements: 1.2, 1.6*
   - [x] 1.3 Write property tests for URL validation
     - **Property 12: Invalid URL Error Handling**
     - **Validates: Requirements 1.2**
@@ -25,7 +25,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Implement `render()` method for generating filenames
     - Implement `validate()` method for template validation
     - Sanitize output to remove invalid filesystem characters
-    - _Requirements: 6.2_
+    - *Requirements: 6.2*
   - [x] 1.5 Write property tests for filename templating
     - **Property 14: Filename Template Rendering**
     - **Validates: Requirements 6.2**
@@ -39,7 +39,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Define `VideoFormat` dataclass with format_id, resolution, codec, filesize
     - Define `VideoInfo` dataclass with url, title, uploader, formats
     - Define `DownloadProgress` dataclass for progress tracking
-    - _Requirements: 2.2_
+    - *Requirements: 2.2*
   - [x] 3.2 Write property tests for format information completeness
     - **Property 6: Format Information Completeness**
     - **Validates: Requirements 2.2**
@@ -47,23 +47,23 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Wrap yt-dlp's extract_info with proper error handling
     - Convert yt-dlp dict to VideoInfo dataclass
     - Handle network errors and invalid URLs gracefully
-    - _Requirements: 1.1, 1.2_
+    - *Requirements: 1.1, 1.2*
   - [x] 3.4 Implement YtdlpWrapper.get_formats() method
     - Extract available formats from video info
     - Filter and sort formats by quality
     - Support audio-only format filtering
-    - _Requirements: 2.1, 2.4_
+    - *Requirements: 2.1, 2.4*
   - [x] 3.5 Implement YtdlpWrapper.download() method
     - Configure yt-dlp options for download
     - Implement progress callback integration
     - Handle download interruption and resumption
     - Verify file integrity after download
-    - _Requirements: 1.1, 1.3, 1.4, 1.5_
+    - *Requirements: 1.1, 1.3, 1.4, 1.5*
   - [x] 3.6 Implement YtdlpWrapper.extract_playlist() method
     - Extract all video entries from playlist URL
     - Handle pagination for large playlists
     - Return list of VideoInfo objects
-    - _Requirements: 3.1_
+    - *Requirements: 3.1*
 
 - [x] 4. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
@@ -73,12 +73,12 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Define SQLAlchemy model with all required fields
     - Add indexes for status and position columns
     - Implement validation for status transitions
-    - _Requirements: 4.1, 4.2_
+    - *Requirements: 4.1, 4.2*
   - [x] 5.2 Create DownloadHistory model (models/history.py)
     - Define SQLAlchemy model with all required fields
     - Add index on url column for duplicate detection
     - Add index on downloaded_at for sorting
-    - _Requirements: 5.1, 5.2_
+    - *Requirements: 5.1, 5.2*
   - [x] 5.3 Write property tests for history entry completeness
     - **Property 7: History Entry Completeness**
     - **Validates: Requirements 5.2**
@@ -88,28 +88,28 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
   - [x] 5.5 Update database initialization to create new tables
     - Add migration for new tables
     - Update DatabaseManager.initialize() method
-    - _Requirements: 11.3_
+    - *Requirements: 11.3*
 
 - [x] 6. Implement download manager service
   - [x] 6.1 Implement DownloadManager.add_to_queue() method
     - Create QueueItem with generated UUID
     - Persist to database
     - Return created item
-    - _Requirements: 4.1_
+    - *Requirements: 4.1*
   - [x] 6.2 Implement DownloadManager.get_queue() method
     - Query all queue items ordered by position
     - Return list of QueueItem objects
-    - _Requirements: 4.2_
+    - *Requirements: 4.2*
   - [x] 6.3 Implement queue manipulation methods (pause, resume, cancel, reorder)
     - Implement pause_download() with status update
     - Implement resume_download() with status update
     - Implement cancel_download() with cleanup
     - Implement reorder_queue() with position updates
-    - _Requirements: 4.3_
+    - *Requirements: 4.3*
   - [x] 6.4 Implement DownloadManager.check_duplicate() method
     - Query history by URL
     - Return matching HistoryEntry or None
-    - _Requirements: 5.3_
+    - *Requirements: 5.3*
   - [x] 6.5 Write property tests for duplicate detection
     - **Property 13: Duplicate Detection Accuracy**
     - **Validates: Requirements 5.3**
@@ -117,19 +117,19 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Query history with optional search filter
     - Support pagination with limit/offset
     - Check file existence for each entry
-    - _Requirements: 5.2, 5.6_
+    - *Requirements: 5.2, 5.6*
   - [x] 6.7 Implement concurrent download management
     - Track active downloads count
     - Implement set_max_concurrent() with validation (1-5)
     - Auto-start next queued item on completion
-    - _Requirements: 4.5, 4.6_
+    - *Requirements: 4.5, 4.6*
   - [x] 6.8 Write property tests for concurrent download limit
     - **Property 19: Concurrent Download Limit**
     - **Validates: Requirements 4.5**
   - [x] 6.9 Implement queue persistence and restoration
     - Save queue state to database on changes
     - Restore queue on application startup
-    - _Requirements: 4.4_
+    - *Requirements: 4.4*
   - [x] 6.10 Write property tests for queue persistence round-trip
     - **Property 4: Queue Persistence Round-Trip**
     - **Validates: Requirements 4.4**
@@ -142,22 +142,22 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Implement get_available_formats() using YtdlpWrapper
     - Implement get_best_format() with quality ranking
     - Implement get_audio_formats() filter
-    - _Requirements: 2.1, 2.4, 2.5_
+    - *Requirements: 2.1, 2.4, 2.5*
   - [x] 8.2 Implement format preference persistence
     - Implement set_default_format() saving to preferences
     - Implement get_default_format() loading from preferences
-    - _Requirements: 2.6_
+    - *Requirements: 2.6*
 
 - [x] 9. Implement playlist handler service
   - [x] 9.1 Create PlaylistHandler class (services/playlist_handler.py)
     - Implement enumerate_playlist() using YtdlpWrapper
     - Implement get_range() for selective downloading
-    - _Requirements: 3.1, 3.5_
+    - *Requirements: 3.1, 3.5*
   - [x] 9.2 Implement batch download functionality
     - Implement download_batch() with concurrent downloads
     - Track successes and failures separately
     - Generate summary report
-    - _Requirements: 3.3, 3.4, 3.6_
+    - *Requirements: 3.3, 3.4, 3.6*
   - [x] 9.3 Write property tests for batch failure isolation
     - **Property 20: Batch Failure Isolation**
     - **Validates: Requirements 3.4**
@@ -170,35 +170,35 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Inherit from BaseFeature
     - Wire up YtdlpWrapper, DownloadManager, FormatSelector
     - Implement execute() method with submenu
-    - _Requirements: 1.1_
+    - *Requirements: 1.1*
   - [x] 11.2 Implement single video download workflow
     - Prompt for URL input with validation
     - Check for duplicates and warn user
     - Display format options and get selection
     - Start download with progress display
     - Record to history on completion
-    - _Requirements: 1.1, 2.1, 2.3, 5.1, 5.3_
+    - *Requirements: 1.1, 2.1, 2.3, 5.1, 5.3*
   - [x] 11.3 Implement playlist download workflow
     - Detect playlist URLs automatically
     - Display video list with selection options
     - Support range selection
     - Queue selected videos for download
-    - _Requirements: 3.1, 3.2, 3.5_
+    - *Requirements: 3.1, 3.2, 3.5*
   - [x] 11.4 Implement download queue management UI
     - Display queue with status and progress
     - Provide pause/resume/cancel options
     - Allow reordering
-    - _Requirements: 4.2, 4.3_
+    - *Requirements: 4.2, 4.3*
   - [x] 11.5 Implement download history UI
     - Display history with search
     - Show file existence status
     - Allow clearing history
-    - _Requirements: 5.2, 5.4, 5.6_
+    - *Requirements: 5.2, 5.4, 5.6*
   - [x] 11.6 Create download progress UI component (ui/download_ui.py)
     - Create progress bar with speed and ETA
     - Support multiple concurrent progress displays
     - Handle download completion/failure states
-    - _Requirements: 1.3_
+    - *Requirements: 1.3*
 
 - [x] 12. Implement output configuration
   - [x] 12.1 Add download settings to preferences
@@ -206,18 +206,18 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Filename template
     - Conflict resolution preference
     - Subdirectory organization preference
-    - _Requirements: 6.1, 6.2, 6.4_
+    - *Requirements: 6.1, 6.2, 6.4*
   - [x] 12.2 Implement directory validation
     - Validate path exists and is writable
     - Auto-create subdirectories as needed
-    - _Requirements: 6.5, 6.6_
+    - *Requirements: 6.5, 6.6*
   - [x] 12.3 Write property tests for directory validation
     - **Property 15: Directory Validation**
     - **Validates: Requirements 6.5**
   - [x] 12.4 Implement filename conflict resolution
     - Detect existing files
     - Offer rename/overwrite/skip options
-    - _Requirements: 6.3_
+    - *Requirements: 6.3*
 
 - [x] 13. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
@@ -226,19 +226,19 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
   - [x] 14.1 Implement user update functionality
     - Add update_user() method to UserManagementFeature
     - Create UI for editing user name and preferences
-    - _Requirements: 7.2_
+    - *Requirements: 7.2*
   - [x] 14.2 Implement user deletion with confirmation
     - Add delete_user() method with confirmation prompt
     - Handle cascade deletion of related data
-    - _Requirements: 7.3_
+    - *Requirements: 7.3*
   - [x] 14.3 Implement user pagination
     - Add pagination to list_users() method
     - Update UI to show page navigation
-    - _Requirements: 7.4_
+    - *Requirements: 7.4*
   - [x] 14.4 Implement user search
     - Add search_users() method with name matching
     - Update UI with search input
-    - _Requirements: 7.5_
+    - *Requirements: 7.5*
   - [x] 14.5 Write property tests for user name validation
     - **Property 16: User Name Validation**
     - **Validates: Requirements 7.1**
@@ -246,59 +246,59 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - **Property 1: User Serialization Round-Trip**
     - **Validates: Requirements 7.6**
 
-- [ ] 15. Enhance preferences service
+- [x] 15. Enhance preferences service
   - [x] 15.1 Add preference validation
     - Implement type checking for preference values
     - Implement range validation where applicable
-    - _Requirements: 8.4_
+    - *Requirements: 8.4*
   - [x] 15.2 Write property tests for preference validation
     - **Property 17: Preference Value Validation**
     - **Validates: Requirements 8.4**
   - [x] 15.3 Implement corruption recovery
     - Detect corrupted preferences file
     - Reset to defaults and notify user
-    - _Requirements: 8.5_
+    - *Requirements: 8.5*
   - [x] 15.4 Write property tests for preferences round-trip
     - **Property 2: Preferences Round-Trip**
     - **Validates: Requirements 8.6**
 
-- [ ] 16. Checkpoint - Ensure all tests pass
+- [x] 16. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 17. Enhance export service
   - [x] 17.1 Add JSON export format
     - Implement export_to_json() method
     - Support field selection
-    - _Requirements: 12.1, 12.2_
+    - *Requirements: 12.1, 12.2*
   - [x] 17.2 Implement download history export
     - Add export_history() method
     - Support all three formats (CSV, JSON, PDF)
-    - _Requirements: 12.3_
+    - *Requirements: 12.3*
   - [x] 17.3 Implement data import functionality
     - Add import_data() method for JSON format
     - Validate imported data structure
-    - _Requirements: 12.6_
+    - *Requirements: 12.6*
   - [x] 17.4 Write property tests for export/import round-trip
     - **Property 3: Export/Import Round-Trip**
     - **Validates: Requirements 12.6**
   - [x] 17.5 Add export completion reporting
     - Report file location and size after export
-    - _Requirements: 12.4_
+    - *Requirements: 12.4*
 
 - [x] 18. Implement CLI interface
   - [x] 18.1 Create Click-based CLI (cli.py)
     - Set up Click group with version and help
     - Implement --quiet flag for minimal output
-    - _Requirements: 13.4, 13.5_
+    - *Requirements: 13.4, 13.5*
   - [x] 18.2 Implement download command
     - Add `download` command with URL argument
     - Add --format option for format selection
     - Add --output option for output path
-    - _Requirements: 13.1, 13.2, 13.3_
+    - *Requirements: 13.1, 13.2, 13.3*
   - [x] 18.3 Update __main__.py for CLI integration
     - Route to CLI or interactive mode based on arguments
     - Handle argument parsing errors gracefully
-    - _Requirements: 13.6_
+    - *Requirements: 13.6*
   - [x] 18.4 Write property tests for CLI argument handling
     - **Property 18: CLI Invalid Argument Handling**
     - **Validates: Requirements 13.6**
@@ -311,11 +311,11 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Configure console handler for user-friendly messages
     - Configure file handler with full stack traces
     - Support configurable log levels
-    - _Requirements: 10.2, 10.3_
+    - *Requirements: 10.2, 10.3*
   - [x] 20.2 Implement user-friendly error messages
     - Create error message templates for common errors
     - Add troubleshooting suggestions for network errors
-    - _Requirements: 10.1, 10.4_
+    - *Requirements: 10.1, 10.4*
   - [x] 20.3 Write property tests for error message user-friendliness
     - **Property 9: Error Message User-Friendliness**
     - **Validates: Requirements 10.1**
@@ -325,17 +325,17 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
   - [x] 20.5 Add log viewer to UI
     - Create feature to view recent log entries
     - Support filtering by log level
-    - _Requirements: 10.6_
+    - *Requirements: 10.6*
 
 - [x] 21. Enhance database reliability
   - [x] 21.1 Implement database backup and restore
     - Add backup_database() method
     - Add restore_database() method
-    - _Requirements: 11.5_
+    - *Requirements: 11.5*
   - [x] 21.2 Add startup integrity validation
     - Check table existence and schema
     - Validate foreign key constraints
-    - _Requirements: 11.4_
+    - *Requirements: 11.4*
   - [x] 21.3 Write property tests for database rollback
     - **Property 11: Database Rollback on Failure**
     - **Validates: Requirements 11.2**
@@ -350,31 +350,31 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
   - [x] 23.1 Register VideoDownloaderFeature in app.py
     - Add to features dictionary
     - Update menu options and actions
-    - _Requirements: 1.1_
+    - *Requirements: 1.1*
   - [x] 23.2 Update constants.py with new menu options
     - Add video download menu options
     - Add download settings options
-    - _Requirements: 1.1_
+    - *Requirements: 1.1*
   - [x] 23.3 Update README.md with new features
     - Document video downloading functionality
     - Document CLI arguments
     - Update feature list
-    - _Requirements: N/A (documentation)_
+    - *Requirements: N/A (documentation)*
 
 - [x] 24. Integration testing
   - [x] 24.1 Write integration tests for download workflow
     - Test complete download flow from URL to file
     - Test queue management workflow
     - Test history tracking
-    - _Requirements: 9.4_
+    - *Requirements: 9.4*
   - [x] 24.2 Write integration tests for user workflow
     - Test complete CRUD operations
     - Test export/import cycle
-    - _Requirements: 9.4_
+    - *Requirements: 9.4*
   - [x] 24.3 Write integration tests for CLI interface
     - Test all CLI commands and options
     - Test error handling for invalid inputs
-    - _Requirements: 9.4_
+    - *Requirements: 9.4*
 
 - [ ] 25. Final checkpoint - Ensure all tests pass and coverage meets target
   - Run full test suite
@@ -389,3 +389,4 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
 - Property tests validate universal correctness properties
 - Unit tests validate specific examples and edge cases
 - The implementation order ensures no orphaned code - each feature is wired up before moving on
+- Current test coverage is ~35% (250 tests passing). Task 25 requires reaching 80% coverage target.
