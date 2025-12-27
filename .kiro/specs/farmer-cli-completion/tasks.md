@@ -328,11 +328,11 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - _Requirements: 10.6_
 
 - [-] 21. Enhance database reliability
-  - [ ] 21.1 Implement database backup and restore
+  - [x] 21.1 Implement database backup and restore
     - Add backup_database() method
     - Add restore_database() method
     - _Requirements: 11.5_
-  - [ ] 21.2 Add startup integrity validation
+  - [-] 21.2 Add startup integrity validation
     - Check table existence and schema
     - Validate foreign key constraints
     - _Requirements: 11.4_
