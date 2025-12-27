@@ -134,10 +134,10 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - **Property 4: Queue Persistence Round-Trip**
     - **Validates: Requirements 4.4**
 
-- [ ] 7. Checkpoint - Ensure all tests pass
+- [x] 7. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 8. Implement format selector service
+- [-] 8. Implement format selector service
   - [ ] 8.1 Create FormatSelector class (services/format_selector.py)
     - Implement get_available_formats() using YtdlpWrapper
     - Implement get_best_format() with quality ranking
