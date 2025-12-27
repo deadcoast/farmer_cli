@@ -434,3 +434,6 @@ class TestDatabaseRollbackOnFailure:
         # Refresh and verify original value is preserved
         db_session.refresh(user2)
         assert user2.name == original_name, "Original name should be preserved after rollback"
+
+        # Expunge objects to release references
+        db_session.expunge_all()

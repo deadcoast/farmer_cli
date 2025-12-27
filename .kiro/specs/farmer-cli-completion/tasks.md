@@ -536,21 +536,21 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Test menu action handling
     - *Requirements: 9.1, 9.3*
 
-- [ ] 27. Code quality fixes identified during review
-  - [ ] 27.1 Fix unused variable in __main__.py
+- [x] 27. Code quality fixes identified during review
+  - [x] 27.1 Fix unused variable in __main__.py
     - Remove or use the `argv` variable (line 35)
     - *Requirements: Code quality*
-  - [ ] 27.2 Fix unused parameter in video_downloader.py
+  - [x] 27.2 Fix unused parameter in video_downloader.py
     - Address unused `url` parameter in _batch_progress_callback (line 746)
     - *Requirements: Code quality*
-  - [ ] 27.3 Fix import sorting in video_downloader.py
+  - [x] 27.3 Fix import sorting in video_downloader.py
     - Run isort to fix import block ordering
     - *Requirements: Code quality*
-  - [ ] 27.4 Fix ResourceWarning in database tests
+  - [x] 27.4 Fix ResourceWarning in database tests
     - Ensure database connections are properly closed in test_database_rollback_properties.py
     - *Requirements: Code quality*
 
-- [ ] 28. Checkpoint - Verify 80% coverage target
+- [-] 28. Checkpoint - Verify 80% coverage target
   - Run full test suite with coverage
   - Verify minimum 80% code coverage achieved
   - Ensure all tests pass, ask the user if questions arise.

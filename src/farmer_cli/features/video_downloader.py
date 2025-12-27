@@ -11,6 +11,7 @@ Requirements: 1.1, 2.1, 2.3, 3.1, 3.2, 3.5, 4.2, 4.3, 5.1, 5.2, 5.3, 5.4, 5.6
 
 import logging
 from pathlib import Path
+
 from ..core.database import get_session
 from ..exceptions import DownloadError
 from ..exceptions import FormatError
@@ -665,7 +666,7 @@ class VideoDownloaderFeature(BaseFeature):
 
         return (1, total)
 
-    def _batch_progress_callback(self, url: str, current: int, total: int) -> None:
+    def _batch_progress_callback(self, _url: str, current: int, total: int) -> None:
         """Callback for batch download progress."""
         console.print(f"  [{current}/{total}] Completed")
 

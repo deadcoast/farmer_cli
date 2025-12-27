@@ -33,9 +33,6 @@ def main(args: Optional[list] = None) -> int:
     # Register cleanup handler
     atexit.register(cleanup_handler)
 
-    # Get arguments
-    argv = args if args is not None else sys.argv[1:]
-
     try:
         # Check if we have CLI arguments (excluding empty list)
         # If arguments are provided, use Click CLI

@@ -5,10 +5,10 @@ This module provides common fixtures for database, temp files, and mock services
 used across unit, property, and integration tests.
 """
 
+import gc
 import json
 import os
 import sys
-import tempfile
 from pathlib import Path
 from typing import Any
 from typing import Generator
@@ -16,7 +16,9 @@ from typing import Generator
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
+from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import NullPool
 
 
 # Add src to path for imports
@@ -37,9 +39,17 @@ def temp_db_path(tmp_path: Path) -> Path:
 @pytest.fixture
 def db_engine(temp_db_path: Path):
     """Create a temporary SQLite database engine."""
-    engine = create_engine(f"sqlite:///{temp_db_path}", echo=False, future=True)
-    yield engine
-    engine.dispose()
+    engine = create_engine(
+        f"sqlite:///{temp_db_path}",
+        echo=False,
+        future=True,
+        poolclass=NullPool,
+    )
+    try:
+        yield engine
+    finally:
+        # Explicitly close all connections before dispose
+        engine.dispose(close=True)
 
 
 @pytest.fixture
@@ -55,14 +65,18 @@ def db_session(db_engine) -> Generator[Session, None, None]:
     # Create all tables
     Base.metadata.create_all(db_engine)
 
-    SessionLocal = sessionmaker(bind=db_engine, expire_on_commit=False)
-    session = SessionLocal()
+    # Use scoped_session for proper cleanup
+    session_factory = sessionmaker(bind=db_engine, expire_on_commit=False)
+    ScopedSession = scoped_session(session_factory)
+    session = ScopedSession()
 
     try:
         yield session
     finally:
         session.rollback()
-        session.close()
+        session.expunge_all()
+        ScopedSession.remove()  # Properly remove scoped session
+        gc.collect()  # Force garbage collection to close any lingering connections
 
 
 @pytest.fixture

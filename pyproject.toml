@@ -277,6 +277,8 @@ markers = [
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::PendingDeprecationWarning",
+    "ignore:unclosed database:ResourceWarning",
+    "ignore:Exception ignored in.*sqlite3.Connection:pytest.PytestUnraisableExceptionWarning",
 ]
 
 [tool.coverage.run]
