@@ -247,18 +247,18 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - **Validates: Requirements 7.6**
 
 - [ ] 15. Enhance preferences service
-  - [ ] 15.1 Add preference validation
+  - [x] 15.1 Add preference validation
     - Implement type checking for preference values
     - Implement range validation where applicable
     - _Requirements: 8.4_
-  - [ ] 15.2 Write property tests for preference validation
+  - [x] 15.2 Write property tests for preference validation
     - **Property 17: Preference Value Validation**
     - **Validates: Requirements 8.4**
-  - [ ] 15.3 Implement corruption recovery
+  - [x] 15.3 Implement corruption recovery
     - Detect corrupted preferences file
     - Reset to defaults and notify user
     - _Requirements: 8.5_
-  - [ ] 15.4 Write property tests for preferences round-trip
+  - [-] 15.4 Write property tests for preferences round-trip
     - **Property 2: Preferences Round-Trip**
     - **Validates: Requirements 8.6**
 
