@@ -364,6 +364,9 @@ def sanitize_error_message(message: str) -> str:
     # Remove module paths
     message = re.sub(r"\b[a-z_]+\.[a-z_]+\.[a-z_]+\b", "", message)
 
+    # Remove dunder patterns (e.g., __init__, __main__, __0__)
+    message = re.sub(r"__\w+__", "", message)
+
     # Clean up whitespace
     message = re.sub(r"\s+", " ", message).strip()
 
