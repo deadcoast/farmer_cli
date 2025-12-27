@@ -20,6 +20,7 @@ from ..features import ConfigurationFeature
 from ..features import DataProcessingFeature
 from ..features import SystemToolsFeature
 from ..features import UserManagementFeature
+from ..features import VideoDownloaderFeature
 from ..services.preferences import PreferencesService
 from ..ui.console import console
 from ..ui.menu import MenuManager
@@ -46,6 +47,9 @@ class FarmerCLI:
 
         # Initialize features
         self.features: Dict[str, Any] = {
+            "video_downloader": VideoDownloaderFeature(
+                preferences_service=self.preferences_service
+            ),
             "data_processing": DataProcessingFeature(),
             "user_management": UserManagementFeature(),
             "configuration": ConfigurationFeature(self),

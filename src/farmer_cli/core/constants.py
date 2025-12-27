@@ -18,10 +18,24 @@ PREFERENCES_FILE = Path("preferences.json")
 FEEDBACK_FILE = Path("feedback.txt")
 
 # Menu configuration
-MENU_OPTIONS = ["Data Processing", "User Management", "Configuration", "System Tools", "Exit"]
+MENU_OPTIONS = [
+    "Video Downloader",
+    "Data Processing",
+    "User Management",
+    "Configuration",
+    "System Tools",
+    "Exit",
+]
 
 # Menu option mappings
-MENU_ACTIONS = {"1": "data_processing", "2": "user_management", "3": "configuration", "4": "system_tools", "0": "exit"}
+MENU_ACTIONS = {
+    "1": "video_downloader",
+    "2": "data_processing",
+    "3": "user_management",
+    "4": "configuration",
+    "5": "system_tools",
+    "0": "exit",
+}
 
 # Submenu options
 DATA_PROCESSING_OPTIONS = [
@@ -57,6 +71,22 @@ USER_MANAGEMENT_OPTIONS = [
     ("5", "Search Users"),
     ("6", "Export Users to CSV"),
     ("0", "Return to Main Menu"),
+]
+
+VIDEO_DOWNLOADER_OPTIONS = [
+    ("1", "Download Single Video"),
+    ("2", "Download Playlist"),
+    ("3", "View Download Queue"),
+    ("4", "View Download History"),
+    ("5", "Settings"),
+    ("0", "Return to Main Menu"),
+]
+
+DOWNLOAD_SETTINGS_OPTIONS = [
+    ("1", "Change Download Directory"),
+    ("2", "Set Default Format"),
+    ("3", "Set Max Concurrent Downloads"),
+    ("0", "Return"),
 ]
 
 # Pagination configuration

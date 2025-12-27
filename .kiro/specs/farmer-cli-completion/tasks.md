@@ -346,32 +346,32 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
 - [x] 22. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 23. Wire up features and update main menu
-  - [ ] 23.1 Register VideoDownloaderFeature in app.py
+- [x] 23. Wire up features and update main menu
+  - [x] 23.1 Register VideoDownloaderFeature in app.py
     - Add to features dictionary
     - Update menu options and actions
     - _Requirements: 1.1_
-  - [ ] 23.2 Update constants.py with new menu options
+  - [x] 23.2 Update constants.py with new menu options
     - Add video download menu options
     - Add download settings options
     - _Requirements: 1.1_
-  - [ ] 23.3 Update README.md with new features
+  - [x] 23.3 Update README.md with new features
     - Document video downloading functionality
     - Document CLI arguments
     - Update feature list
     - _Requirements: N/A (documentation)_
 
-- [ ] 24. Integration testing
-  - [ ] 24.1 Write integration tests for download workflow
+- [x] 24. Integration testing
+  - [x] 24.1 Write integration tests for download workflow
     - Test complete download flow from URL to file
     - Test queue management workflow
     - Test history tracking
     - _Requirements: 9.4_
-  - [ ] 24.2 Write integration tests for user workflow
+  - [x] 24.2 Write integration tests for user workflow
     - Test complete CRUD operations
     - Test export/import cycle
     - _Requirements: 9.4_
-  - [ ] 24.3 Write integration tests for CLI interface
+  - [x] 24.3 Write integration tests for CLI interface
     - Test all CLI commands and options
     - Test error handling for invalid inputs
     - _Requirements: 9.4_
