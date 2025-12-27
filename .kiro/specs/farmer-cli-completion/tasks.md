@@ -327,7 +327,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Support filtering by log level
     - _Requirements: 10.6_
 
-- [-] 21. Enhance database reliability
+- [x] 21. Enhance database reliability
   - [x] 21.1 Implement database backup and restore
     - Add backup_database() method
     - Add restore_database() method
@@ -336,10 +336,10 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Check table existence and schema
     - Validate foreign key constraints
     - _Requirements: 11.4_
-  - [-] 21.3 Write property tests for database rollback
+  - [x] 21.3 Write property tests for database rollback
     - **Property 11: Database Rollback on Failure**
     - **Validates: Requirements 11.2**
-  - [ ] 21.4 Write property tests for database consistency
+  - [x] 21.4 Write property tests for database consistency
     - **Property 5: Database Consistency Invariant**
     - **Validates: Requirements 11.6**
 
