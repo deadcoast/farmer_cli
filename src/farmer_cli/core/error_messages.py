@@ -343,8 +343,10 @@ def sanitize_error_message(message: str) -> str:
     if not message:
         return "An unexpected error occurred."
 
-    # Remove stack trace patterns
+    # Remove stack trace patterns (both full and abbreviated forms)
     message = re.sub(r"Traceback \(most recent call last\):.*", "", message, flags=re.DOTALL)
+    message = re.sub(r"^Traceback:.*", "", message, flags=re.MULTILINE | re.DOTALL)
+    message = re.sub(r"\nTraceback:.*", "", message, flags=re.DOTALL)
     message = re.sub(r"File \"[^\"]+\", line \d+.*", "", message, flags=re.MULTILINE)
 
     # Remove internal paths (Unix and Windows)
@@ -352,7 +354,7 @@ def sanitize_error_message(message: str) -> str:
     message = re.sub(r"[A-Z]:\\[a-zA-Z0-9_\\.-]+\.py(:\d+)?", "", message)
 
     # Remove common technical prefixes
-    message = re.sub(r"^(Error|Exception|Warning):\s*", "", message, flags=re.IGNORECASE)
+    message = re.sub(r"^(Error|Exception|Warning|Traceback):\s*", "", message, flags=re.IGNORECASE)
     message = re.sub(r"^\w+Error:\s*", "", message)
     message = re.sub(r"^\w+Exception:\s*", "", message)
 

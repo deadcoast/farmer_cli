@@ -327,7 +327,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Support filtering by log level
     - _Requirements: 10.6_
 
-- [ ] 21. Enhance database reliability
+- [-] 21. Enhance database reliability
   - [ ] 21.1 Implement database backup and restore
     - Add backup_database() method
     - Add restore_database() method

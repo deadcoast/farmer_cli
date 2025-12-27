@@ -298,7 +298,14 @@ class TestErrorLoggingCompleteness:
             log_content = read_log_file(log_file)
 
             # The exception message should appear in the traceback
-            assert message in log_content, \
+            # Note: Some exceptions like KeyError wrap the message in quotes
+            # So we check for either the raw message or its repr
+            message_found = (
+                message in log_content or
+                repr(message) in log_content or
+                message.replace("'", "\\'") in log_content
+            )
+            assert message_found, \
                 f"Exception message '{message[:50]}...' not found in log"
         finally:
             cleanup_logging()
