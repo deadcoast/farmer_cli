@@ -148,7 +148,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Implement get_default_format() loading from preferences
     - _Requirements: 2.6_
 
-- [-] 9. Implement playlist handler service
+- [x] 9. Implement playlist handler service
   - [x] 9.1 Create PlaylistHandler class (services/playlist_handler.py)
     - Implement enumerate_playlist() using YtdlpWrapper
     - Implement get_range() for selective downloading
@@ -158,43 +158,43 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Track successes and failures separately
     - Generate summary report
     - _Requirements: 3.3, 3.4, 3.6_
-  - [-] 9.3 Write property tests for batch failure isolation
+  - [x] 9.3 Write property tests for batch failure isolation
     - **Property 20: Batch Failure Isolation**
     - **Validates: Requirements 3.4**
 
-- [ ] 10. Checkpoint - Ensure all tests pass
+- [x] 10. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 11. Implement video downloader feature
-  - [ ] 11.1 Create VideoDownloaderFeature class (features/video_downloader.py)
+- [x] 11. Implement video downloader feature
+  - [x] 11.1 Create VideoDownloaderFeature class (features/video_downloader.py)
     - Inherit from BaseFeature
     - Wire up YtdlpWrapper, DownloadManager, FormatSelector
     - Implement execute() method with submenu
     - _Requirements: 1.1_
-  - [ ] 11.2 Implement single video download workflow
+  - [x] 11.2 Implement single video download workflow
     - Prompt for URL input with validation
     - Check for duplicates and warn user
     - Display format options and get selection
     - Start download with progress display
     - Record to history on completion
     - _Requirements: 1.1, 2.1, 2.3, 5.1, 5.3_
-  - [ ] 11.3 Implement playlist download workflow
+  - [x] 11.3 Implement playlist download workflow
     - Detect playlist URLs automatically
     - Display video list with selection options
     - Support range selection
     - Queue selected videos for download
     - _Requirements: 3.1, 3.2, 3.5_
-  - [ ] 11.4 Implement download queue management UI
+  - [x] 11.4 Implement download queue management UI
     - Display queue with status and progress
     - Provide pause/resume/cancel options
     - Allow reordering
     - _Requirements: 4.2, 4.3_
-  - [ ] 11.5 Implement download history UI
+  - [x] 11.5 Implement download history UI
     - Display history with search
     - Show file existence status
     - Allow clearing history
     - _Requirements: 5.2, 5.4, 5.6_
-  - [ ] 11.6 Create download progress UI component (ui/download_ui.py)
+  - [x] 11.6 Create download progress UI component (ui/download_ui.py)
     - Create progress bar with speed and ETA
     - Support multiple concurrent progress displays
     - Handle download completion/failure states

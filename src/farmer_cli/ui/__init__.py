@@ -7,6 +7,9 @@ menu systems, widgets, layouts, and input prompts.
 
 from .console import console
 from .console import setup_console
+from .download_ui import create_download_progress
+from .download_ui import display_download_history
+from .download_ui import display_download_queue
 from .layouts import create_main_layout
 from .menu import MenuManager
 from .prompts import choice_prompt
@@ -28,9 +31,12 @@ __all__ = [
     # Console
     "console",
     # Widgets
+    "create_download_progress",
     "create_frame",
     "create_main_layout",
     "create_table",
+    "display_download_history",
+    "display_download_queue",
     "display_greeting",
     "password_prompt",
     "setup_console",

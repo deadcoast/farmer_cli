@@ -12,6 +12,7 @@ from .file_browser import browse_files
 from .help_system import HelpSystem
 from .system_tools import SystemToolsFeature
 from .user_manager import UserManagementFeature
+from .video_downloader import VideoDownloaderFeature
 from .weather import check_weather
 
 
@@ -22,6 +23,7 @@ __all__ = [
     "HelpSystem",
     "SystemToolsFeature",
     "UserManagementFeature",
+    "VideoDownloaderFeature",
     "browse_files",
     "check_weather",
 ]
