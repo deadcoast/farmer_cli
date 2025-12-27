@@ -470,12 +470,12 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - *Requirements: 9.1, 9.3*
 
 - [-] 26. Additional unit tests for remaining low-coverage modules
-  - [ ] 26.1 Write unit tests for __main__.py (currently 0%)
+  - [x] 26.1 Write unit tests for __main__.py (currently 0%)
     - Test main() function routing logic
     - Test keyboard interrupt handling
     - Test SystemExit handling
     - *Requirements: 9.1, 9.3*
-  - [ ] 26.2 Write unit tests for ui/download_ui.py (currently 13%)
+  - [x] 26.2 Write unit tests for ui/download_ui.py (currently 13%)
     - Test create_download_progress() function
     - Test create_multi_download_progress() function
     - Test display_download_queue() function
@@ -488,7 +488,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Test _get_status_style() helper
     - Test _format_filesize() helper
     - *Requirements: 9.1, 9.3*
-  - [ ] 26.3 Write unit tests for ui/prompts.py (currently 16%)
+  - [x] 26.3 Write unit tests for ui/prompts.py (currently 16%)
     - Test text_prompt() with validation
     - Test confirm_prompt() function
     - Test choice_prompt() function
@@ -497,16 +497,16 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Test autocomplete_prompt() function
     - Test multiline_prompt() function
     - *Requirements: 9.1, 9.3*
-  - [ ] 26.4 Write unit tests for ui/menu.py (currently 28%)
+  - [x] 26.4 Write unit tests for ui/menu.py (currently 28%)
     - Test MenuManager.display_main_menu() method
     - Test MenuManager.display_submenu() method
     - Test menu stack operations (push_menu, pop_menu, clear_stack)
     - *Requirements: 9.1, 9.3*
-  - [ ] 26.5 Write unit tests for ui/console.py (currently 40%)
+  - [x] 26.5 Write unit tests for ui/console.py (currently 40%)
     - Test console initialization
     - Test get_prompt_session() function
     - *Requirements: 9.1, 9.3*
-  - [ ] 26.6 Write unit tests for utils/validators.py (currently 22%)
+  - [-] 26.6 Write unit tests for utils/validators.py (currently 22%)
     - Test validate_json() function
     - Test validate_email() function
     - Test validate_path() function
