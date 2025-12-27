@@ -10,6 +10,7 @@ from .download_manager import DownloadManager
 from .download_manager import HistoryEntry
 from .feedback import FeedbackService
 from .feedback import submit_feedback
+from .format_selector import FormatSelector
 from .preferences import PreferencesService
 from .ytdlp_wrapper import DownloadProgress
 from .ytdlp_wrapper import DownloadStatus
@@ -24,6 +25,7 @@ __all__ = [
     "DownloadProgress",
     "DownloadStatus",
     "FeedbackService",
+    "FormatSelector",
     "HistoryEntry",
     "PreferencesService",
     "VideoFormat",
