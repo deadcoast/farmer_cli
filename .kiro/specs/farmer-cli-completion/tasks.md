@@ -222,7 +222,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
 - [x] 13. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [-] 14. Enhance user management feature
+- [x] 14. Enhance user management feature
   - [x] 14.1 Implement user update functionality
     - Add update_user() method to UserManagementFeature
     - Create UI for editing user name and preferences
@@ -239,10 +239,10 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Add search_users() method with name matching
     - Update UI with search input
     - _Requirements: 7.5_
-  - [-] 14.5 Write property tests for user name validation
+  - [x] 14.5 Write property tests for user name validation
     - **Property 16: User Name Validation**
     - **Validates: Requirements 7.1**
-  - [ ] 14.6 Write property tests for user serialization round-trip
+  - [x] 14.6 Write property tests for user serialization round-trip
     - **Property 1: User Serialization Round-Trip**
     - **Validates: Requirements 7.6**
 
