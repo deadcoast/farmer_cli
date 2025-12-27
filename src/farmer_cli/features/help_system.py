@@ -141,3 +141,8 @@ def searchable_help() -> None:
     else:
         console.print(f"\n[bold yellow]No help topics found for '{query}'[/bold yellow]")
     console.input("Press Enter to return...")
+
+
+    def cleanup(self) -> None:
+        """Cleanup the help system feature."""
+        pass

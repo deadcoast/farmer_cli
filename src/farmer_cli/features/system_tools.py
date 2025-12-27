@@ -56,3 +56,8 @@ class SystemToolsFeature(BaseFeature):
         except Exception as e:
             console.print(f"[bold red]Export failed: {e}[/bold red]")
             console.input("\nPress Enter to continue...")
+
+
+    def cleanup(self) -> None:
+        """Cleanup the system tools feature."""
+        pass
