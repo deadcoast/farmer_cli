@@ -138,7 +138,7 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
   - Ensure all tests pass, ask the user if questions arise.
 
 - [-] 8. Implement format selector service
-  - [ ] 8.1 Create FormatSelector class (services/format_selector.py)
+  - [-] 8.1 Create FormatSelector class (services/format_selector.py)
     - Implement get_available_formats() using YtdlpWrapper
     - Implement get_best_format() with quality ranking
     - Implement get_audio_formats() filter
