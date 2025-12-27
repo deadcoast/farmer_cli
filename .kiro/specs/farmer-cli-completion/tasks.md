@@ -332,11 +332,11 @@ This implementation plan breaks down the Farmer CLI completion into discrete, in
     - Add backup_database() method
     - Add restore_database() method
     - _Requirements: 11.5_
-  - [-] 21.2 Add startup integrity validation
+  - [x] 21.2 Add startup integrity validation
     - Check table existence and schema
     - Validate foreign key constraints
     - _Requirements: 11.4_
-  - [ ] 21.3 Write property tests for database rollback
+  - [-] 21.3 Write property tests for database rollback
     - **Property 11: Database Rollback on Failure**
     - **Validates: Requirements 11.2**
   - [ ] 21.4 Write property tests for database consistency

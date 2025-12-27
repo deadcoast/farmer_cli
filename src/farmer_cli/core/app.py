@@ -59,8 +59,8 @@ class FarmerCLI:
         """
         Initialize the application.
 
-        This includes database setup, loading preferences, and any other
-        initialization tasks.
+        This includes database setup, integrity validation, loading preferences,
+        and any other initialization tasks.
 
         Raises:
             DatabaseError: If database initialization fails
@@ -69,6 +69,29 @@ class FarmerCLI:
             # Initialize database
             self.db_manager.initialize()
             console.print("[bold green]Database initialized successfully.[/bold green]")
+
+            # Validate database integrity on startup
+            is_valid, issues = self.db_manager.validate_integrity()
+            if not is_valid:
+                console.print(
+                    "[bold yellow]Database integrity issues detected:[/bold yellow]"
+                )
+                for issue in issues:
+                    console.print(f"  [yellow]• {issue}[/yellow]")
+
+                # Attempt automatic repair
+                console.print("[bold cyan]Attempting automatic repair...[/bold cyan]")
+                if self.db_manager.repair_database():
+                    console.print(
+                        "[bold green]Database repair successful.[/bold green]"
+                    )
+                else:
+                    console.print(
+                        "[bold yellow]Some issues could not be repaired. "
+                        "Consider restoring from backup.[/bold yellow]"
+                    )
+            else:
+                logger.info("Database integrity validation passed")
 
             # Load preferences
             preferences = self.preferences_service.load()
